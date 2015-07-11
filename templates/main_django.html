@@ -7,8 +7,6 @@
 
   <link rel="icon" type="image/x-icon" href="{% static "images/favicon.ico" %}" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
-  
   {% compressed_css 'style-vendor' %}
   {% compressed_css 'style-app' %}
   {% compressed_css 'style-app-extend1' %}
@@ -23,8 +21,6 @@
   {% render_block "css" %}
 
   {% include "theme-head-extra.html" %}
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/js/materialize.min.js"></script>
 
   <!--[if lt IE 9]>
   <script src="{% static 'js/html5shiv.js' %}"></script>
