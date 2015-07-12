@@ -11593,7 +11593,7 @@ Main components
   opacity: 0.87;
 }
 .builder a.active:before {
-  background-image: url('../../../assets/img//demo/tick.svg');
+  background-image: url('../../assets/img//demo/tick.svg');
   width: 23px;
   height: 23px;
   content: '';
