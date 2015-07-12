@@ -10075,7 +10075,7 @@ Main components
   opacity: .69;
 }
 .widget-1:after {
-  background-image: url("../../../assets/img/dashboard/pages_hero.jpg");
+  background-image: url("../../assets/img/dashboard/pages_hero.jpg");
   background-size: cover;
   content: " ";
   left: 0;
@@ -10116,7 +10116,7 @@ Main components
   background: rgba(255, 255, 255, 0.3);
 }
 .widget-2:after {
-  background-image: url("../../../assets/img/social/person-cropped.jpg");
+  background-image: url("../../assets/img/social/person-cropped.jpg");
 }
 .widget-3 a {
   text-decoration: none;
@@ -10322,7 +10322,7 @@ Main components
 }
 .widget-18-post {
   height: 342px;
-  background: url('../../../assets/img/social/quote.jpg');
+  background: url('../../assets/img/social/quote.jpg');
   background-position: center center;
   background-size: cover;
 }
