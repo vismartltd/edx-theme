@@ -1,2 +1,2 @@
 $ ->
-  Materialize.toast('I am a toast!', 4000)
+  Materialize.toast('Nine tests', 4000)
