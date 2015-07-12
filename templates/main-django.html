@@ -35,7 +35,8 @@
     {% block body %}{% endblock %}
     {% block bodyextra %}{% endblock %}
   </div>
-
+  {% include "theme-footer.html" %}
+  
   {% compressed_js 'application' %}
   {% compressed_js 'module-js' %}
 
