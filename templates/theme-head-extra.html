@@ -2,3 +2,36 @@
 <%namespace name='static' file='/static_content.html'/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${static.url('themes/{theme_name}/css/bundle.css'.format(theme_name=settings.THEME_NAME))}" />
+<!-- BEGIN Vendor CSS-->
+<link href="${static.url('themes/{theme_name}/assets/plugins/pace/pace-theme-flash.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" />
+<link href="${static.url('themes/{theme_name}/assets/plugins/boostrapv3/css/bootstrap.min.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" />
+<link href="${static.url('themes/{theme_name}/assets/plugins/font-awesome/css/font-awesome.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" />
+<link href="${static.url('themes/{theme_name}/assets/plugins/jquery-scrollbar/jquery.scrollbar.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" media="screen" />
+<link href="${static.url('themes/{theme_name}/assets/plugins/bootstrap-select2/select2.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" media="screen" />
+<link href="${static.url('themes/{theme_name}/assets/plugins/switchery/css/switchery.min.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" media="screen" />
+<!-- BEGIN Pages CSS-->
+<link href="${static.url('themes/{theme_name}/css/pages-icons.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css">
+<link class="main-stylesheet" href="${static.url('themes/{theme_name}/css/pages.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" />
+<!--[if lte IE 9]>
+    <link href="${static.url('themes/{theme_name}/css/ie9.css'.format(theme_name=settings.THEME_NAME))}" rel="stylesheet" type="text/css" />
+<![endif]-->
+
+<script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="assets/plugins/modernizr.custom.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="assets/plugins/boostrapv3/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery/jquery-easy.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-unveil/jquery.unveil.min.js" type="text/javascript"></script>
+<script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+<script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js" type="text/javascript"></script>
+<script src="assets/plugins/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+<script src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+<!-- END VENDOR JS -->
+<!-- BEGIN CORE TEMPLATE JS -->
+<script src="pages/js/pages.js" type="text/javascript"></script>
+<!-- END CORE TEMPLATE JS -->
+<!-- BEGIN PAGE LEVEL JS -->
+<script src="assets/js/scripts.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL JS -->
