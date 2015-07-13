@@ -175,7 +175,7 @@ from status.status import get_site_status_msg
         <div class="form-group form-group-default">
           <label>Login</label>
           <div class="controls">
-            <input id="username" type="text" name="username" placeholder="User Name" class="form-control" required>
+            <input id="email" type="text" name="email" placeholder="User Name" class="form-control" required>
           </div>
         </div>
         <!-- END Form Control-->
@@ -190,7 +190,7 @@ from status.status import get_site_status_msg
         <div class="row">
           <div class="col-md-6 no-padding">
             <div class="checkbox ">
-              <input type="checkbox" value="1" id="checkbox1">
+              <input id="remember-yes" type="checkbox" value="true" name="remember-yes">
               <label for="checkbox1">Keep Me Signed in</label>
             </div>
           </div>
@@ -198,7 +198,6 @@ from status.status import get_site_status_msg
             <a href="#" class="text-info small">Help? Contact Support</a>
           </div>
         </div>
-        <input id="remember-yes" type="checkbox" name="remember" value="true" />
         <!-- END Form Control-->
         <button id="submit" class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>
       </form>
