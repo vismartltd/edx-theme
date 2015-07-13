@@ -33,3 +33,11 @@
 .hidden {
   display: none
 }
+
+.bg-pic > .row {
+  height: 50%
+}
+
+.col-6-md {
+  border: 1px solid #fff
+}
