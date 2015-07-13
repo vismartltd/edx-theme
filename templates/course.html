@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from courseware.courses import course_image_url, get_course_about_section
 %>
 <%page args="course" />
-<div id="${course.id | h}" class="course-pad">
+<div id="${course.id | h}" class="course-pad hidden">
   %if course.is_newish:
     <span class="status">${_("New")}</span>
   %endif

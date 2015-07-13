@@ -10,3 +10,6 @@ $ ->
     $('.login-container').removeClass('animated bounceInRight').addClass('animated bounceOutRight').one 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', ->
       $('.login-container').addClass 'hidden'
       $('.login-button-toggle').show()
+
+  $('.course-holder').mouseenter ->
+    $(this).children('.course-pad').removeClass('hidden').addClass('animated slideInUp')
