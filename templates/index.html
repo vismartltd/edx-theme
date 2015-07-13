@@ -175,7 +175,8 @@ from status.status import get_site_status_msg
     <div class="row">
       <%include file="course.html" args="course=courses[0]" />
     </div>
-    <!-- % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
+    <%doc>
+      % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
         <section class="courses">
             <ul class="courses-listing">
             %for course in courses:
@@ -185,7 +186,8 @@ from status.status import get_site_status_msg
             %endfor
             </ul>
         </section>
-      % endif -->
+      % endif
+    </%doc>
   </div>
   <!-- END Login Background Pic Wrapper-->
   <!-- START Login Right Container-->
