@@ -62,12 +62,6 @@
 
   <link rel="icon" type="image/x-icon" href="${static.url(microsite.get_value('favicon_path', settings.FAVICON_PATH))}" />
 
-  <%block name="css-origin">
-    <%static:css group='style-vendor'/>
-    <%static:css group='style-app'/>
-    <%static:css group='style-app-extend1'/>
-    <%static:css group='style-app-extend2'/>
-  </%block>
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -106,9 +100,9 @@
     header_extra_file = None
 
     if settings.FEATURES['IS_EDX_DOMAIN'] and not is_microsite():
-        header_file = microsite.get_template_path('navigation-edx.html')
+        header_file = microsite.get_template_path('theme-header.html')
     else:
-        header_file = microsite.get_template_path('navigation.html')
+        header_file = microsite.get_template_path('theme-header.html')
 
     google_analytics_file = microsite.get_template_path('google_analytics.html')
 
