@@ -1,3 +1,4 @@
 ->
   $('.login-button-toggle').click ->
-    $('.login-container').animate('margin-right: 0px;')
+    console.log 'test'
+    $('.login-container').animate('width: 496px;')

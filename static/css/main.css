@@ -11,7 +11,7 @@
 }
 
 .login-wrapper .login-container {
-  margin-right: -496px;
+  width: 0;
 }
 
 .login-button {
