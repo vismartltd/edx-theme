@@ -173,7 +173,9 @@ from status.status import get_site_status_msg
       </div>
     </div>
     <div class="row">
-      <%include file="course.html" args="course=courses[0]" />
+      <div class="col-md-12">
+        <%include file="course.html" args="course=courses[0]" />
+      </div>
     </div>
     <%doc>
       % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
