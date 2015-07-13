@@ -175,7 +175,7 @@ from status.status import get_site_status_msg
         <div class="form-group form-group-default">
           <label>Login</label>
           <div class="controls">
-            <input type="text" name="username" placeholder="User Name" class="form-control" required>
+            <input id="username" type="text" name="username" placeholder="User Name" class="form-control" required>
           </div>
         </div>
         <!-- END Form Control-->
@@ -183,7 +183,7 @@ from status.status import get_site_status_msg
         <div class="form-group form-group-default">
           <label>Password</label>
           <div class="controls">
-            <input type="password" class="form-control" name="password" placeholder="Credentials" required>
+            <input id="password" type="password" class="form-control" name="password" placeholder="Credentials" required>
           </div>
         </div>
         <!-- START Form Control-->
@@ -198,6 +198,7 @@ from status.status import get_site_status_msg
             <a href="#" class="text-info small">Help? Contact Support</a>
           </div>
         </div>
+        <input id="remember-yes" type="checkbox" name="remember" value="true" />
         <!-- END Form Control-->
         <button id="submit" class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>
       </form>
