@@ -1,12 +1,21 @@
-<%! from django.utils.translation import ugettext as _ %>
+<%! from microsite_configuration import microsite %>
+<%namespace name='static' file='static_content.html'/>
+<%inherit file="main.html" />
 
 <%! from django.core.urlresolvers import reverse %>
-<%inherit file="main.html" />
-<%namespace name='static' file='static_content.html'/>
-
-<%! from microsite_configuration import microsite %>
+<%! from django.utils.translation import ugettext as _ %>
 <%! import third_party_auth %>
 <%! from third_party_auth import provider, pipeline %>
+
+<%! from microsite_configuration.templatetags.microsite import platform_name %>
+
+<%!
+import branding
+# app that handles site status messages
+from status.status import get_site_status_msg
+%>
+
+<%block name="pagetitle">${_("Log into your {platform_name} Account").format(platform_name=platform_name)}</%block>
 
 <%
   homepage_overlay_html = microsite.get_value('homepage_overlay_html')
@@ -18,6 +27,8 @@
   show_partners = microsite.get_value('show_partners', True)
 
 %>
+
+
 <%block name="js_extra">
   <script type="text/javascript">
 
@@ -183,3 +194,6 @@
   </div>
   <!-- END Login Right Container-->
 </div>
+
+<%block name="footer">
+</%block>
