@@ -1,0 +1,15 @@
+.logo-top-index {
+  position: absolute;
+  top: 50px;
+  left: 40px;
+}
+
+.bg-pic {
+  background-image: url('static/themes/ninenone/assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
+  background-size: cover;
+  opacity: 0.6;
+}
+
+.login-container {
+  margin-left: -496px;
+}
