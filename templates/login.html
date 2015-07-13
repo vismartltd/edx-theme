@@ -62,11 +62,8 @@
       });
 
       $('#login-form').on('ajax:success', function(event, json, xhr) {
+        console.log(json);
         if(json.success) {
-          console.log(${reverse('dashboard')});
-          if(json.redirect_url) {
-            console.log(has);
-          }
           var u=decodeURI(window.location.search);
           var next = u.split("next=")[1];
           if (next != undefined) {
