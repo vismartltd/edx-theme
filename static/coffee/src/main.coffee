@@ -11,8 +11,7 @@ $ ->
       $('.login-container').addClass 'hidden'
       $('.login-button-toggle').show()
 
-  $('.course-holder').hover
-  ->
-    $(this).children('.course-pad').animate({height: '100%'}, 5000, 'linear')
-  , ->
-    $(this).children('.course-pad').animate({height: '0'}, 5000, 'linear')
+  $('.course-holder').hover (->
+   	$(this).children('.course-pad').animate({height: '100%'}, 5000, 'linear')),
+  	(->
+    	$(this).children('.course-pad').animate({height: '0'}, 5000, 'linear'))
