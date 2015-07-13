@@ -62,11 +62,12 @@
 
   <link rel="icon" type="image/x-icon" href="${static.url(microsite.get_value('favicon_path', settings.FAVICON_PATH))}" />
 
-
-  <%static:css group='style-vendor'/>
-  <%static:css group='style-app'/>
-  <%static:css group='style-app-extend1'/>
-  <%static:css group='style-app-extend2'/>
+  <%block name="css-origin">
+    <%static:css group='style-vendor'/>
+    <%static:css group='style-app'/>
+    <%static:css group='style-app-extend1'/>
+    <%static:css group='style-app-extend2'/>
+  </%block>
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -144,7 +145,7 @@
 
 
       <%include file="${header_file}" />
-    
+
     <!-- <div class="content-wrapper" id="content"> -->
       ${self.body()}
       <%block name="bodyextra"/>
