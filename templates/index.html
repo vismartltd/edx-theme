@@ -62,7 +62,7 @@ from status.status import get_site_status_msg
         toggleSubmitButton(false);
       });
 
-      $('#login-form').on('ajax:error', function(event, request, status_string) {
+      $('#form-login').on('ajax:error', function(event, request, status_string) {
         toggleSubmitButton(true);
         console.log('errors');
         if (request.status === 403) {
@@ -76,11 +76,12 @@ from status.status import get_site_status_msg
         }
       });
 
-      $('#login-form').on('ajax:success', function(event, json, xhr) {
+      $('#form-login').on('ajax:success', function(event, json, xhr) {
+        console.log('success');
         console.log(event);
         console.log(json);
         if(json.redirect_url) {
-          console.log(has);
+          console.log('has');
         }
         if(json.success) {
           var u=decodeURI(window.location.search);
@@ -153,10 +154,12 @@ from status.status import get_site_status_msg
 
 <div class="login-wrapper ">
   <!-- START Login Background Pic Wrapper-->
+  <div class="logo-top-index">
+    <img src="static/themes/ninenone/assets/img/logo.png" alt="logo"/>
+  </div>
+  <div class="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
+
   <div class="bg-pic">
-    <div class="logo-top-index">
-      <img src="static/themes/ninenone/assets/img/logo.png" alt="logo"/>
-    </div>
     <!-- START Background Caption-->
     <div class="bg-caption pull-bottom sm-pull-bottom text-white p-l-20 m-b-20">
       <h2 class="semi-bold text-white">
@@ -166,7 +169,6 @@ from status.status import get_site_status_msg
       </p>
     </div>
     <!-- END Background Caption-->
-    <div class="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
   </div>
   <!-- END Login Background Pic Wrapper-->
   <!-- START Login Right Container-->
