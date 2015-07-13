@@ -80,20 +80,20 @@
     })(this);
 
     function toggleSubmitButton(enable) {
-      var $submitButton = $('form .form-actions #submit');
+      var $submitButton = $('form #submit');
 
       if(enable) {
         $submitButton.
           removeClass('is-disabled').
           attr('aria-disabled', false).
           removeProp('disabled').
-          html("${_('Log into My {platform_name} Account').format(platform_name=platform_name)} <span class='orn-plus'>+</span> ${_('Access My Courses')}");
+          html("Войти");
       }
       else {
         $submitButton.
           addClass('is-disabled').
           prop('disabled', true).
-          text("${_(u'Processing your account information')}");
+          text("Обработка");
       }
     }
 
@@ -167,7 +167,7 @@
           </div>
         </div>
         <!-- END Form Control-->
-        <button class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>
+        <button id="submit" class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>
       </form>
       <!--END Login Form-->
       <div class="pull-bottom sm-pull-bottom">
