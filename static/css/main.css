@@ -34,7 +34,7 @@
   background: rgba(255,255,255,0.7);
 }
 
-#login-close-button {
+.login-close-button {
   color: #444;
   left: 20px;
   position: absolute;

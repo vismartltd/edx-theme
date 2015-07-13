@@ -5,7 +5,7 @@ $ ->
     $('#logo-top-index').removeClass().addClass('animated fadeOutUp')
     $('.login-container').removeClass('hidden animated bounceOutLeft').addClass 'animated bounceInRight'
 
-  $('.login-button-toggle').click ->
+  $('.login-close-button').click ->
     $('#logo-top-index').removeClass().addClass('animated fadeInBottom')
     $('.login-container').removeClass('animated bounceInRight').addClass 'animated bounceOutLeft'.one 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', ->
       $('.login-container').addClass 'hidden'

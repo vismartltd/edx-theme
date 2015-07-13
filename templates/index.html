@@ -159,15 +159,15 @@ from status.status import get_site_status_msg
   <div id="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
 
   <div class="bg-pic">
-    <div class="row full-height">
+    <div class="row full-height no-margin">
       <div class="col-md-12 full-height">
 
-        <div class="row row-grid-top">
+        <div class="row row-grid-top no-margin">
           <div class="col-md-6 full-height">
-            <div id="course-1" class="row half-height">
+            <div id="course-1" class="row half-height no-margin">
               <%include file="course.html" args="course=courses[0]" />
             </div>
-            <div id="course-2" class="row half-height">
+            <div id="course-2" class="row half-height no-margin">
               <%include file="course.html" args="course=courses[0]" />
             </div>
           </div>
@@ -200,7 +200,7 @@ from status.status import get_site_status_msg
   <!-- END Login Background Pic Wrapper-->
   <!-- START Login Right Container-->
   <div class="login-container bg-white hidden">
-    <a href="#" id="login-close-button">
+    <a href="#" class="login-close-button">
       <i class="fa fa-close"></i>
     </a>
     <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
