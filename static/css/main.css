@@ -83,7 +83,8 @@ p, h1, h2, h3, h4, h5 {
 
 .course-pad {
   background-color: rgba(0,0,0,0.5);
-  height: 0
+  height: 0;
+  overflow: hidden;
 }
 
 #video-cover {
