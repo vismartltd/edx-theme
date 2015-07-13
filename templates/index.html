@@ -77,6 +77,7 @@ from status.status import get_site_status_msg
       });
 
       $('#login-form').on('ajax:success', function(event, json, xhr) {
+        console.log(event);
         if(json.success) {
           var u=decodeURI(window.location.search);
           var next = u.split("next=")[1];
