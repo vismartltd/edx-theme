@@ -12,6 +12,7 @@ $ ->
       $('.login-button-toggle').show()
 
   $('.course-holder').mouseenter ->
+    console.log $(this).children('.course-pad')
     $(this).children('.course-pad').animate({'height: 100%'}, 5000, 'linear')
 
   $('.course-holder').mouseleave ->
