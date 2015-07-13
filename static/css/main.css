@@ -45,3 +45,15 @@
 .half-height {
   height: 50%;
 }
+
+#course-2 {
+  border-top: 1px solid #fff;
+}
+
+#course-3 {
+  border-left: 1px solid #fff;
+}
+
+#course-4 {
+  border-top: 1px solid #fff;
+}
