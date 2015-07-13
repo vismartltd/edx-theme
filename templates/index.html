@@ -9,6 +9,12 @@
 
 <%! from microsite_configuration.templatetags.microsite import platform_name %>
 
+<%!
+import branding
+# app that handles site status messages
+from status.status import get_site_status_msg
+%>
+
 <%block name="pagetitle">${_("Log into your {platform_name} Account").format(platform_name=platform_name)}</%block>
 
 <%
