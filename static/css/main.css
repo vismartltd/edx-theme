@@ -5,11 +5,19 @@
 }
 
 .bg-pic {
-  background-image: url('static/themes/ninenone/assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
+  background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
   background-size: cover;
   opacity: 0.6;
 }
 
-.login-container {
-  margin-left: -496px;
+.login-wrapper .login-container {
+  margin-right: -496px;
+}
+
+.login-button {
+  position: absolute;
+  padding: 20px;
+  background: #fff;
+  top: 50px;
+  right: 40px
 }
