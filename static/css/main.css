@@ -17,6 +17,10 @@
   top: 50px;
   right: 40px
 }
+.login-button, .logo-top-index {
+  z-index: 999;
+  height: auto;
+}
 
 .hidden {
   display: none

@@ -3,7 +3,10 @@
 <%inherit file="/navigation.html"/>
 
 <%! from microsite_configuration.templatetags.microsite import platform_name %>
-<%block name="whole_header">
+<%block name="pages_header">
+  <a href="${reverse('logout')}" role="menuitem">${_("Sign out")}</a>
+</%block>
+
 </%block>
 
 <%block name="navigation_top">
