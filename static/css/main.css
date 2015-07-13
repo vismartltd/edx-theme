@@ -30,6 +30,17 @@
   height: auto;
 }
 
+.login-container {
+  background: rgba(255,255,255,0.7);
+}
+
+#login-close-button {
+  color: #444;
+  left: 20px;
+  position: absolute;
+  top: 20px;
+}
+
 .hidden {
   display: none
 }
@@ -56,4 +67,12 @@
 
 #course-4 {
   border-top: 1px solid #fff;
+}
+
+.row-grid-top {
+  height: 65%
+}
+
+.row-grid-bottom {
+  height: 35%
 }

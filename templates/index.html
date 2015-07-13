@@ -162,7 +162,7 @@ from status.status import get_site_status_msg
     <div class="row full-height">
       <div class="col-md-12 full-height">
 
-        <div class="row half-height">
+        <div class="row row-grid-top">
           <div class="col-md-6 full-height">
             <div id="course-1" class="row half-height">
               <%include file="course.html" args="course=courses[0]" />
@@ -176,7 +176,7 @@ from status.status import get_site_status_msg
           </div>
         </div>
 
-        <div class="row half-height">
+        <div class="row row-grid-bottom">
           <div id="course-4" class="col-md-12 full-height">
             <%include file="course.html" args="course=courses[0]" />
           </div>
@@ -201,7 +201,7 @@ from status.status import get_site_status_msg
   <!-- START Login Right Container-->
   <div class="login-container bg-white hidden">
     <a href="#" id="login-close-button">
-      <i class="fa fa-cross"></i>
+      <i class="fa fa-close"></i>
     </a>
     <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
       <img src="static/themes/ninenone/assets/img/logo.png" alt="logo" data-src="static/themes/ninenone/assets/img/logo.png" data-src-retina="static/themes/ninenone/assets/img/logo_2x.png">
