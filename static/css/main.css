@@ -76,3 +76,7 @@
 .row-grid-bottom {
   height: 35%
 }
+
+.course-pad {
+  background-color: rgba(0,0,0,0.5)
+}
