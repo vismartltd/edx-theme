@@ -1,5 +1,5 @@
 .bg-pic {
-  background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
+  //background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
   background-size: cover;
   opacity: 0.6;
 }
@@ -40,4 +40,8 @@
 
 .col-6-md {
   border: 1px solid #fff
+}
+
+.half-height {
+  height: 50%;
 }
