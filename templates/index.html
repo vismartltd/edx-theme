@@ -18,10 +18,13 @@
 
 %>
 
-<%
-  pages_override = True
-  disable_footer = True
-%>
+<%block name="base-style">
+
+<%/block>
+
+<%block name="header">
+  <%include file="${header_file}" />
+<%/block>
 
 <div class="login-wrapper ">
   <!-- START Login Background Pic Wrapper-->
@@ -96,5 +99,5 @@
 </div>
 
 <%block name="footer">
-  
+
 </%block>
