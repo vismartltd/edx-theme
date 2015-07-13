@@ -3,7 +3,7 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .bg-pic {
-  //background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
+  background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
   background-size: cover;
   opacity: 0.6;
 }
