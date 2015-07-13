@@ -62,10 +62,6 @@
 
   <link rel="icon" type="image/x-icon" href="${static.url(microsite.get_value('favicon_path', settings.FAVICON_PATH))}" />
 
-  <%static:css group='style-vendor'/>
-  <%static:css group='style-app'/>
-  <%static:css group='style-app-extend1'/>
-  <%static:css group='style-app-extend2'/>
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
@@ -147,20 +143,20 @@
       ${self.body()}
       <%block name="bodyextra"/>
     <!-- </div> -->
-
-    <%block name="footer">
-      ## Can be overridden by child templates wanting to hide the footer.
-      <%
-        if theme_enabled() and not is_microsite():
-          footer_file = 'theme-footer.html'
-        elif settings.FEATURES.get('IS_EDX_DOMAIN', False) and not is_microsite():
-          footer_file = microsite.get_template_path('footer-edx-new.html')
-        else:
-          footer_file = microsite.get_template_path('footer.html')
-      %>
-      <%include file="${footer_file}" />
-    </%block>
-
+    % if not disable_footer:
+      <%block name="footer">
+        ## Can be overridden by child templates wanting to hide the footer.
+        <%
+          if theme_enabled() and not is_microsite():
+            footer_file = 'theme-footer.html'
+          elif settings.FEATURES.get('IS_EDX_DOMAIN', False) and not is_microsite():
+            footer_file = microsite.get_template_path('footer-edx-new.html')
+          else:
+            footer_file = microsite.get_template_path('footer.html')
+        %>
+        <%include file="${footer_file}" />
+      </%block>
+    % endif
   <!-- </div> -->
 
   % if not disable_courseware_js:
