@@ -7,6 +7,8 @@
 <%! import third_party_auth %>
 <%! from third_party_auth import provider, pipeline %>
 
+<%! from microsite_configuration.templatetags.microsite import platform_name %>
+
 <%block name="pagetitle">${_("Log into your {platform_name} Account").format(platform_name=platform_name)}</%block>
 
 <%
@@ -187,6 +189,6 @@
   <!-- END Login Right Container-->
 </div>
 
-<!-- <%block name="footer">
+<%block name="footer">
 
-</%block> -->
+</%block>
