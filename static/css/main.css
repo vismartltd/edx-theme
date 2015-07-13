@@ -10,14 +10,14 @@
   opacity: 0.6;
 }
 
-.login-wrapper .login-container {
-  width: 0;
-}
-
 .login-button {
   position: absolute;
   padding: 20px;
   background: #fff;
   top: 50px;
   right: 40px
+}
+
+.hidden {
+  display: none
 }

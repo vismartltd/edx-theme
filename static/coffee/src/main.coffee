@@ -1,4 +1,5 @@
 ->
   $('.login-button-toggle').click ->
     console.log 'test'
-    $('.login-container').animate('width: 496px;')
+    $('.login-container').removeClass 'hidden'
+    $(this).hide()
