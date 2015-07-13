@@ -23,41 +23,15 @@
 
 <%block name="js_extra">
   <script type="text/javascript">
-    $(function() {
-
-      // adding js class for styling with accessibility in mind
-      $('body').addClass('js');
-
-      // show forgot password modal UI if URL contains matching DOM ID
-      if ($.deparam.fragment()['forgot-password-modal'] !== undefined) {
-        $('.pwd-reset').click();
-      }
-
-      // new window/tab opening
-      $('a[rel="external"], a[class="new-vp"]')
-      .click( function() {
-        window.open( $(this).attr('href') );
-        return false;
-      });
-
-      // form field label styling on focus
-      $("form :input").focus(function() {
-        $("label[for='" + this.id + "']").parent().addClass("is-focused");
-      }).blur(function() {
-        $("label").parent().removeClass("is-focused");
-      });
-
-      $("#email").focus();
-    });
 
     (function() {
       toggleSubmitButton(true);
 
-      $('#login-form').on('submit', function() {
+      $('#form-login').on('submit', function() {
         toggleSubmitButton(false);
       });
 
-      $('#login-form').on('ajax:error', function(event, request, status_string) {
+      $('#form-login').on('ajax:error', function(event, request, status_string) {
         toggleSubmitButton(true);
 
         if (request.status === 403) {
@@ -71,7 +45,7 @@
         }
       });
 
-      $('#login-form').on('ajax:success', function(event, json, xhr) {
+      $('#form-login').on('ajax:success', function(event, json, xhr) {
         if(json.success) {
           var u=decodeURI(window.location.search);
           var next = u.split("next=")[1];
@@ -135,7 +109,7 @@
        // consistent to do that by using the same mechanism that is used when
        // the use does first-party sign-in: POSTing the sign-in form.
        if (pipeline_running) {
-         $('#login-form').submit();
+         $('#form-login').submit();
        }
     })(${pipeline_running})
   </script>
