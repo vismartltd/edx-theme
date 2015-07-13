@@ -100,9 +100,9 @@
     header_extra_file = None
 
     if settings.FEATURES['IS_EDX_DOMAIN'] and not is_microsite():
-        header_file = microsite.get_template_path('theme-header.html')
+        header_file = microsite.get_template_path('navigation-edx.html')
     else:
-        header_file = microsite.get_template_path('theme-header.html')
+        header_file = microsite.get_template_path('navigation.html')
 
     google_analytics_file = microsite.get_template_path('google_analytics.html')
 
