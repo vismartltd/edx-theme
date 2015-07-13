@@ -12,4 +12,7 @@ $ ->
       $('.login-button-toggle').show()
 
   $('.course-holder').mouseenter ->
-    $(this).children('.course-pad').removeClass('hidden').addClass('animated slideInUp')
+    $(this).children('.course-pad').slideDown()
+
+  $('.course-holder').mouseleave ->
+    $(this).children('.course-pad').slideUp()
