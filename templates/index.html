@@ -68,7 +68,7 @@ from status.status import get_site_status_msg
 
       $('#form-login').on('ajax:error', function(event, request, status_string) {
         toggleSubmitButton(true);
-        console.log('errors');
+
         if (request.status === 403) {
           $('.message.submission-error').removeClass('is-shown');
           $('.third-party-signin.message').addClass('is-shown').focus();
@@ -81,12 +81,7 @@ from status.status import get_site_status_msg
       });
 
       $('#form-login').on('ajax:success', function(event, json, xhr) {
-        console.log('success');
-        console.log(event);
-        console.log(json);
-        if(json.redirect_url) {
-          console.log('has');
-        }
+
         if(json.success) {
           var u=decodeURI(window.location.search);
           var next = u.split("next=")[1];
@@ -150,7 +145,7 @@ from status.status import get_site_status_msg
        // consistent to do that by using the same mechanism that is used when
        // the use does first-party sign-in: POSTing the sign-in form.
        if (pipeline_running) {
-         $('#login-form').submit();
+         $('#form-login').submit();
        }
     })(${pipeline_running})
   </script>
@@ -158,10 +153,10 @@ from status.status import get_site_status_msg
 
 <div class="login-wrapper ">
   <!-- START Login Background Pic Wrapper-->
-  <div class="logo-top-index">
+  <div id="logo-top-index">
     <img src="static/themes/ninenone/assets/img/logo.png" alt="logo"/>
   </div>
-  <div class="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
+  <div id="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
 
   <div class="bg-pic">
     <!-- START Background Caption-->

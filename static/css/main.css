@@ -1,23 +1,24 @@
-.logo-top-index {
-  position: absolute;
-  top: 50px;
-  left: 40px;
-}
-
 .bg-pic {
   background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
   background-size: cover;
   opacity: 0.6;
 }
 
-.login-button {
+#logo-top-index {
+  position: absolute;
+  top: 50px;
+  left: 40px;
+}
+
+#login-button {
   position: absolute;
   padding: 20px;
   background: #fff;
   top: 50px;
   right: 40px
 }
-.login-button, .logo-top-index {
+
+#login-button, #logo-top-index {
   z-index: 999;
   height: auto;
 }
