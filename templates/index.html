@@ -64,7 +64,7 @@ from status.status import get_site_status_msg
 
       $('#login-form').on('ajax:error', function(event, request, status_string) {
         toggleSubmitButton(true);
-
+        console.log('errors');
         if (request.status === 403) {
           $('.message.submission-error').removeClass('is-shown');
           $('.third-party-signin.message').addClass('is-shown').focus();
