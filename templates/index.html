@@ -79,7 +79,6 @@ from status.status import get_site_status_msg
       $('#login-form').on('ajax:success', function(event, json, xhr) {
         console.log(event);
         console.log(json);
-        console.log(${reverse('dashboard')});
         if(json.redirect_url) {
           console.log(has);
         }
