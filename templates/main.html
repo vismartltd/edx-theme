@@ -62,6 +62,12 @@
 
   <link rel="icon" type="image/x-icon" href="${static.url(microsite.get_value('favicon_path', settings.FAVICON_PATH))}" />
 
+  % if not pages_override:
+    <%static:css group='style-vendor'/>
+    <%static:css group='style-app'/>
+    <%static:css group='style-app-extend1'/>
+    <%static:css group='style-app-extend2'/>
+  % endif
 
   % if disable_courseware_js:
     <%static:js group='base_vendor'/>
