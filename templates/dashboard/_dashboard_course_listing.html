@@ -27,7 +27,6 @@ from student.helpers import (
 
 <%namespace name='static' file='../static_content.html'/>
 
-<div class="row">
   <div class="col-md-6 col-xlg-6">
     <div class="ar-3-2 widget-1-wrapper">
       <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
@@ -143,7 +142,7 @@ from student.helpers import (
       </div>
     </div>
   </div>
-</div>
+
 <li class="course-item">
   % if settings.FEATURES.get('ENABLE_VERIFIED_CERTIFICATES'):
     % if enrollment.mode == "verified":
