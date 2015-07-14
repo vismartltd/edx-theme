@@ -163,12 +163,13 @@ from status.status import get_site_status_msg
 
   % for enabled in provider.Registry.enabled():
     ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
-    <button type="submit" class="login-button-toggle button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>${_('Sign in with {provider_name}').format(provider_name=enabled.NAME)}</button>
+    <button type="submit" class="btn btn-primary login-button-toggle button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>${_('Sign in with {provider_name}').format(provider_name=enabled.NAME)}</button>
   % endfor
 
   </div>
 
   % endif
+  </div>
 
   <div class="bg-pic">
     <video id="video-cover" muted loop autoplay poster="static/themes/ninenone/assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg">
