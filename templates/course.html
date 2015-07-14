@@ -10,18 +10,18 @@ from courseware.courses import course_image_url, get_course_about_section
   <div id="${course.id | h}" class="course-pad">
 
         <div class="course-info">
-            <span class="course-number">${course.display_number_with_default | h}</span>
-            <span class="course-title">"${get_course_about_section(course, 'title')}</span>
+            <div class="course-number">${course.display_number_with_default | h}</div>
+            <div class="course-title">${get_course_about_section(course, 'title')}</div>
         </div>
 
         <div class="course-desc">
           <p>${get_course_about_section(course, 'short_description')}</p>
         </div>
 
-        <div class="bottom">
-          <span class="course-org">${get_course_about_section(course, 'university')}</span>
+        <div class="course-org-info">
+          <div class="course-org">${get_course_about_section(course, 'university')}</div>
           % if not course.start_date_is_still_default:
-          <span class="start-date">${course.start_datetime_text()}</span>
+          <div class="start-date">${course.start_datetime_text()}</div>
           % endif
         </div>
 
