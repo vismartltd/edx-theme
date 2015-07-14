@@ -1,7 +1,9 @@
 
 
   $('.course-pad').hover (->
+    console.log 'hover'
    	$(this).animate({opacity: '100%'}, 500, 'ease-out', ->
+      console.log 'hover'
       $(this).children('div').animate {opacity: '100%'}, 500, 'ease-out'
     )),
   	(->
