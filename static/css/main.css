@@ -34,7 +34,7 @@ p, h1, h2, h3, h4, h5 {
 
 #login-button {
   position: absolute;
-  padding: 10px 20px;
+  padding: 10px;
   background: none;
   top: 65px;
   right: 40px;
@@ -80,15 +80,15 @@ p, h1, h2, h3, h4, h5 {
 }
 
 #course-2 {
-  border-top: 1px solid #fff;
+  border-top: 1px solid #ddd;
 }
 
 #course-3 {
-  border-left: 1px solid #fff;
+  border-left: 1px solid #ddd;
 }
 
 #course-4 {
-  border-top: 1px solid #fff;
+  border-top: 1px solid #ddd;
 }
 
 .row-grid-top {
