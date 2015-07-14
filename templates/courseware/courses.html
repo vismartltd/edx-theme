@@ -41,12 +41,6 @@
 
 <section class="find-courses">
 
-  %for course in courses:
-    <div class="row p-b-30">
-      <%include file="../course-admin.html" args="course=course" />
-    </div>
-  %endfor
-
   % if len(courses) > 0:
       % for a,b in grouper(2,courses):
         <div class="row p-b-30">
