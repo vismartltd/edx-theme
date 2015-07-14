@@ -33,24 +33,27 @@
 
 <section class="find-courses">
 
-  <header class="search">
-    <div class="inner-wrapper main-search">
-      <hgroup>
-        <div class="logo">
-          <img src="${logo_file}" alt="${logo_alt_text}" />
-        </div>
-        <h2>${course_index_overlay_text}</h2>
-      </hgroup>
+  %for course in courses:
+    <div class="row p-b-30">
+      <%include file="../course-admin.html" args="course=course" />
     </div>
-  </header>
+  %endfor
 
-
-      <ul class="courses-listing">
-      	%for course in courses:
+  % if len(courses) > 0:
+      % for a,b in grouper(2,courses):
         <div class="row p-b-30">
-          <%include file="../course-admin.html" args="course=course" />
+          % if b is not None:
+            % for course in [a,b]:
+              <%include file="../course-admin.html" args="course=course" />
+            % endfor
+          % else:
+            <%include file="../course-admin.html" args="course=a" />
+          % endif
         </div>
-        %endfor
-      </ul>
-
+      % endfor
+  % else:
+    <div class="empty-dashboard-message">
+      <h2 class="text-center">Добавленные курсы отсутствуют</h2>
+    </div>
+  % endif
 </section>

@@ -109,7 +109,7 @@
           </div>
         % endfor
     % else:
-      <section class="empty-dashboard-message">
+      <div class="empty-dashboard-message">
         % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
           <h2>${_("Looks like you haven't enrolled in any courses yet.")}</h2>
           <a class="fs-16" href="${marketing_link('COURSES')}">
@@ -118,7 +118,7 @@
         % else:
           <p>${_("Looks like you haven't enrolled in any courses yet.")}</p>
         %endif
-      </section>
+      </div>
     % endif
   </div>
 </div>
