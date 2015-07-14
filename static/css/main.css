@@ -147,6 +147,6 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .course-link:hover {
-  color: #fff;
-  border: 1px solid #fff;
+  color: #f8d053 !important;
+  border: 1px solid #f8d053;
 }
