@@ -51,7 +51,17 @@ from student.helpers import (
             <span class="label font-montserrat fs-11">#${course.display_number_with_default | h}</span>
             <br>
             <h2 class="text-white">${course.display_name_with_default}</h2>
-            <p class="text-white hint-text">Learn More at Project Pages</p>
+            <p class="text-white hint-text">
+              % if course_requirements:
+              ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
+              <% prc_target = reverse('about_course', args=[unicode(course_requirements['courses'][0]['key'])]) %>
+                ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
+                    link_start='<a href="{}">'.format(prc_target),
+                    link_end='</a>',
+                    prc_display=course_requirements['courses'][0]['display'],
+                  )}
+              % endif
+            </p>
             <div class="row stock-rates m-t-15">
               <div class="company col-xs-4">
                 <div>
