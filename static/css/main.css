@@ -13,7 +13,7 @@ p, h1, h2, h3, h4, h5 {
 }
 
 [class^="pg-"], [class*=" pg-"] {
-  font-family: "pages-icons" !important;
+  font-family: "pages-icon" !important;
 }
 
 .fa {
