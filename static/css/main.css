@@ -106,13 +106,14 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .course-holder-inner {
+  height: 100%;
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
   overflow: hidden;
   transition: opacity 0.8s ease-out 0s;
 }
 
-.course-holder:hover {
+.course-holder-inner:hover {
   opacity: 1;
 }
 

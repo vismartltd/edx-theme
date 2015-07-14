@@ -8,31 +8,23 @@ from courseware.courses import course_image_url, get_course_about_section
 <div class="course-holder-inner">
 <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}">
   <div id="${course.id | h}" class="course-pad">
-    %if course.is_newish:
-      <span class="status">${_("New")}</span>
-    %endif
-    <div class="inner-wrapper">
-        <header class="course-preview">
-          <hgroup>
-            <h2><span class="course-number">${course.display_number_with_default | h}</span> ${get_course_about_section(course, 'title')}</h2>
-          </hgroup>
-          <div class="info-link">&#x2794;</div>
-        </header>
-        <section class="info">
-          <div class="desc">
-            <p>${get_course_about_section(course, 'short_description')}</p>
-          </div>
-          <div class="bottom">
-            <span class="university">${get_course_about_section(course, 'university')}</span>
-            % if not course.start_date_is_still_default:
-            <span class="start-date">${course.start_datetime_text()}</span>
-            % endif
-          </div>
-        </section>
-      </div>
-      <div class="meta-info">
-        <p class="university">${get_course_about_section(course, 'university')}</p>
-      </div>
+
+        <div class="course-info">
+            <span class="course-number">${course.display_number_with_default | h}</span>
+            <span class="course-title">"${get_course_about_section(course, 'title')}</span>
+        </div>
+
+        <div class="course-desc">
+          <p>${get_course_about_section(course, 'short_description')}</p>
+        </div>
+
+        <div class="bottom">
+          <span class="course-org">${get_course_about_section(course, 'university')}</span>
+          % if not course.start_date_is_still_default:
+          <span class="start-date">${course.start_datetime_text()}</span>
+          % endif
+        </div>
+
   </div>
 </a>
 </div>
