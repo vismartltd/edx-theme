@@ -34,7 +34,7 @@
           $(this).children('div').removeClass('hidden animated fadeOut').addClass('animated fadeIn');
 
         }, function() {
-            $(this).children('div').removeClass('animated fadeIn').addClass('animated fadeOut hidden');
-            $(this).removeClass('animated fadeIn').addClass('animated fadeOut hidden')
+            $(this).children('div').removeClass('animated fadeIn').addClass('animated fadeOut');
+            $(this).removeClass('animated fadeIn').addClass('animated fadeOut')
         });
     })
