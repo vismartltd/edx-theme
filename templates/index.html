@@ -163,7 +163,7 @@ from status.status import get_site_status_msg
 
   % for enabled in provider.Registry.enabled():
     ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
-    <button type="submit" class="btn btn-primary login-button-toggle button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><i class="fa ${enabled.ICON_CLASS}"></i>Войти</button>
+    <button type="submit" class="btn btn-primary login-button-toggle button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><i class="fa ${enabled.ICON_CLASS}"></i>&nbsp;Войти</button>
   % endfor
 
   </div>

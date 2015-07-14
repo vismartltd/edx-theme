@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from courseware.courses import course_image_url, get_course_about_section
 %>
 <%page args="course" />
-<!-- <div class="course-holder-inner"> -->
+
 <a href="${reverse('about_course', args=[course.id.to_deprecated_string()])}">
   <div id="${course.id | h}" class="course-pad">
 
@@ -27,4 +27,3 @@ from courseware.courses import course_image_url, get_course_about_section
 
   </div>
 </a>
-<!-- </div> -->

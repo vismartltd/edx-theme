@@ -1,9 +1,12 @@
 
 
-  # $('.course-holder').hover (->
-  #  	$(this).children('.course-pad').animate({height: '100%'}, 500, 'linear')),
-  # 	(->
-  #   	$(this).children('.course-pad').animate({height: '0'}, 500, 'linear'))
+  $('.course-pad').hover (->
+   	$(this).animate({opacity: '100%'}, 500, 'ease-out', ->
+      $(this).children('div').animate {opacity: '100%'}, 500, 'ease-out'
+    )),
+  	(->
+      $(this).children('div').animate {opacity: '0'}, 500, 'ease-out'
+    	$(this).children('.course-pad').animate({opacity: '0'}, 500, 'ease-out'))
 
   $('.unenroll').click ->
     $('#unenroll-form-modal').modal('show')
