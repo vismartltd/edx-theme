@@ -23,8 +23,6 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .bg-pic {
-  background-image: url('../assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg');
-  background-size: cover;
   opacity: 0.6;
 }
 
@@ -150,6 +148,7 @@ p, h1, h2, h3, h4, h5 {
 #video-cover {
   position: absolute;
   width: 100%;
+  object-fit: cover;
 }
 
 /* Dashboard course list */
