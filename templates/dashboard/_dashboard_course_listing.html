@@ -60,6 +60,16 @@ from student.helpers import (
                     link_end='</a>',
                     prc_display=course_requirements['courses'][0]['display'],
                   )}
+              % else:
+                % if course.has_ended():
+                ${_("Course Completed - {end_date}").format(end_date=course.end_datetime_text("DATE_TIME"))}
+                % elif course.has_started():
+                ${_("Course Started - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
+                % elif course.start_date_is_still_default: # Course start date TBD
+                ${_("Course has not yet started")}
+                % else:   # hasn't started yet
+                ${_("Course Starts - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
+                % endif
               % endif
             </p>
             <div class="row stock-rates m-t-15">
