@@ -17,4 +17,4 @@ $ ->
     	$(this).children('.course-pad').animate({height: '0'}, 500, 'linear'))
 
   $('.unenroll').click ->
-    $('#unenroll-modal').modal('show')
+    $('#unenroll-form-modal').modal('show')
