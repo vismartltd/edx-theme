@@ -4,12 +4,12 @@ p, h1, h2, h3, h4, h5 {
 }
 
 @font-face {
-	font-family: 'Circe';
-	src: font-url("Circe.otf");
+	font-family: Circe;
+	src: url('../assets/fonts/Circe.otf');
 }
 
 body {
-  font-family: 'Circe';
+  font-family: Circe;
 }
 
 .bg-pic {
