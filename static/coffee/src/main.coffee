@@ -1,5 +1,4 @@
-
-
+$ ->
   $('.course-pad').hover (->
     console.log 'hover'
    	$(this).animate({opacity: '100%'}, 500, 'ease-out', ->
