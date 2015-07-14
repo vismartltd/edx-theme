@@ -116,5 +116,9 @@ p, h1, h2, h3, h4, h5 {
 /* Dashboard course list */
 
 .widget-1::after {
-  background-image: url(attr(data-cover-image));
+  background-image: none;
+}
+
+.course-cover {
+  width: 100%
 }
