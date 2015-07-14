@@ -31,7 +31,7 @@ from student.helpers import (
 %>
 % if not is_course_blocked:
   <a href="${course_target}">
-% else
+% else:
   <a class=blocked>
 % endif
   <div class="col-md-6 col-xlg-6">
