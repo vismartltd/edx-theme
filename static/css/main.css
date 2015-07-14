@@ -101,7 +101,7 @@ p, h1, h2, h3, h4, h5 {
   height: 35%
 }
 
-.course-pad-inner {
+.course-pad {
   height: 100%;
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
@@ -109,7 +109,7 @@ p, h1, h2, h3, h4, h5 {
   transition: opacity 0.8s ease-out 0s;
 }
 
-.course-pad-inner:hover {
+.course-pad:hover {
   opacity: 1;
 }
 
