@@ -1,50 +1,143 @@
-<%! from django.utils.translation import ugettext as _ %>
-<%! from django.template import RequestContext %>
-<%! import third_party_auth %>
-<%! from third_party_auth import pipeline %>
-<%! from microsite_configuration import microsite %>
-
-<%!
-  from django.core.urlresolvers import reverse
-%>
-
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7 lte9 lte8 lte7" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if IE 8]><html class="ie ie8 lte9 lte8" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if IE 9]><html class="ie ie9 lte9" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="${LANGUAGE_CODE}"><!--<![endif]-->
 <%
-  cert_name_short = settings.CERT_NAME_SHORT
-  cert_name_long = settings.CERT_NAME_LONG
+    # set doc language direction
+    from django.utils.translation import get_language_bidi
+    dir_rtl = 'rtl' if get_language_bidi() else 'ltr'
 %>
-
-<%inherit file="admin_layout.html" />
+<head dir="${dir_rtl}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    % if responsive:
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    % endif
+<%! from django.utils.translation import ugettext as _ %>
+<%! from microsite_configuration import microsite %>
+<%! from microsite_configuration import page_title_breadcrumbs %>
 
 <%namespace name='static' file='static_content.html'/>
+<%! from django.utils.http import urlquote_plus %>
 
-<%block name="pagetitle">${_("Dashboard")}</%block>
-<%block name="bodyclass">view-dashboard is-authenticated</%block>
-<%block name="nav_skip">#my-courses</%block>
+## Define a couple of helper functions to make life easier when
+## embedding theme conditionals into templates. All inheriting
+## templates have access to these functions, and we can import these
+## into non-inheriting templates via the %namespace tag.
+<%def name="theme_enabled()">
+  <% return settings.FEATURES.get("USE_CUSTOM_THEME", False) %>
+</%def>
+<%def name="is_microsite()">
+  <% return microsite.is_request_in_microsite() %>
+</%def>
 
-<%block name="header_extras">
-% for template_name in ["donation"]:
-<script type="text/template" id="${template_name}-tpl">
-  <%static:include path="dashboard/${template_name}.underscore" />
-</script>
-% endfor
-</%block>
+<%def name="stanford_theme_enabled()">
+  <%
+    if not theme_enabled():
+      return False
 
-<%block name="js_extra">
-  <%static:js group='dashboard'/>
+    return getattr(settings, "THEME_NAME", None) == "stanford"
+  %>
+</%def>
+
+## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
+<%def name="pagetitle()" />
+  <%block name="title">
+      <title>
+       ${page_title_breadcrumbs(self.pagetitle())}
+      </title>
+  </%block>
+
   <script type="text/javascript">
-    $(document).ready(function() {
-      edx.dashboard.legacy.init({
-        dashboard: "${reverse('dashboard')}",
-        signInUser: "${reverse('signin_user')}",
-        passwordReset: "${reverse('password_reset')}",
-        changeEmail: "${reverse('change_email')}",
-        changeEmailSettings: "${reverse('change_email_settings')}",
-        changeName: "${reverse('change_name')}",
-        verifyToggleBannerFailedOff: "${reverse('verify_student_toggle_failed_banner_off')}",
-      });
-    });
+    /* immediately break out of an iframe if coming from the marketing website */
+    (function(window) {
+      if (window.location !== window.top.location) {
+        window.top.location = window.location;
+      }
+    })(this);
   </script>
-</%block>
+
+  <script type="text/javascript" src="/jsi18n/"></script>
+
+  <link rel="icon" type="image/x-icon" href="${static.url(microsite.get_value('favicon_path', settings.FAVICON_PATH))}" />
+
+
+  % if disable_courseware_js:
+    <%static:js group='base_vendor'/>
+  % else:
+    <%static:js group='main_vendor'/>
+  % endif
+
+  <script>
+    window.baseUrl = "${settings.STATIC_URL}";
+    (function (require) {
+    % if settings.DEBUG is True:
+        ## Using what amounts to a random number in the Development environment for cache-busting
+        var urlArgs = "bust=" + (new Date()).getTime();
+    % else:
+        var urlArgs = "v=${settings.EDX_PLATFORM_REVISION}";
+    % endif
+      require.config({
+          baseUrl: baseUrl,
+          urlArgs: urlArgs
+      });
+    }).call(this, require || RequireJS.require);
+  </script>
+  <script type="text/javascript" src="${static.url("require-config-lms.js")}"></script>
+
+  <%block name="headextra"/>
+
+<%
+  if theme_enabled() and not is_microsite():
+    header_extra_file = 'theme-head-extra.html'
+    header_file = 'theme-header.html'
+    google_analytics_file = 'theme-google-analytics.html'
+
+    style_overrides_file = None
+
+  else:
+    header_extra_file = None
+
+    if settings.FEATURES['IS_EDX_DOMAIN'] and not is_microsite():
+        header_file = microsite.get_template_path('navigation-edx.html')
+    else:
+        header_file = microsite.get_template_path('navigation.html')
+
+    google_analytics_file = microsite.get_template_path('google_analytics.html')
+
+    style_overrides_file = microsite.get_value('css_overrides_file')
+%>
+
+  % if header_extra_file:
+    <%include file="${header_extra_file}" />
+  % endif
+
+  <!--[if lt IE 9]>
+    <script src="${static.url('js/html5shiv.js')}"></script>
+  <![endif]-->
+
+  <%include file="widgets/optimizely.html" />
+  <%include file="widgets/segment-io.html" />
+
+  <meta name="path_prefix" content="${EDX_ROOT_URL}">
+  <meta name="google-site-verification" content="_mipQ4AtZQDNmbtOkwehQDOgCxUUV2fb_C0b6wbiRHY" />
+
+  <%include file="${google_analytics_file}" />
+
+% if style_overrides_file:
+  <link rel="stylesheet" type="text/css" href="${static.url(style_overrides_file)}" />
+% endif
+
+</head>
+
+<body class="fixed-header menu-behind ${dir_rtl} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
+
+<%include file="mathjax_accessible.html" />
+
+
+  <%include file="${header_file}" />
+
 <!-- BEGIN SIDEBAR -->
 <div class="page-sidebar" data-pages="sidebar">
   <div id="appMenu" class="sidebar-overlay-slide from-top">
@@ -253,34 +346,9 @@
       <!-- END JUMBOTRON -->
       <!-- START CONTAINER FLUID -->
       <div class="container-fluid container-fixed-lg">
-      % if len(course_enrollment_pairs) > 0:
-  <ul class="listing-courses">
-    % for course, enrollment in course_enrollment_pairs:
-        <% show_courseware_link = (course.id in show_courseware_links_for) %>
-        <% cert_status = cert_statuses.get(course.id) %>
-        <% show_email_settings = (course.id in show_email_settings_for) %>
-        <% course_mode_info = all_course_modes.get(course.id) %>
-        <% show_refund_option = (course.id in show_refund_option_for) %>
-        <% is_paid_course = (course.id in enrolled_courses_either_paid) %>
-        <% is_course_blocked = (course.id in block_courses) %>
-        <% course_verification_status = verification_status_by_course.get(course.id, {}) %>
-        <% course_requirements = courses_requirements_not_met.get(course.id) %>
-        <%include file='dashboard/_dashboard_course_listing.html' args="course=course, enrollment=enrollment, show_courseware_link=show_courseware_link, cert_status=cert_status, show_email_settings=show_email_settings, course_mode_info=course_mode_info, show_refund_option = show_refund_option, is_paid_course = is_paid_course, is_course_blocked = is_course_blocked, verification_status=course_verification_status, course_requirements=course_requirements" />
-  % endfor
 
-  </ul>
-% else:
-  <section class="empty-dashboard-message">
-    % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-      <p>${_("Looks like you haven't enrolled in any courses yet.")}</p>
-      <a href="${marketing_link('COURSES')}">
-        ${_("Find courses now!")}
-      </a>
-    % else:
-      <p>${_("Looks like you haven't enrolled in any courses yet.")}</p>
-    %endif
-  </section>
-% endif
+          ${self.body()}
+
       </div>
       <!-- END CONTAINER FLUID -->
     </div>
@@ -761,5 +829,29 @@
   <!-- END Overlay Content !-->
 </div>
 
+<%block name="bodyextra"/>
+
 <%block name="footer">
 </%block>
+
+
+% if not disable_courseware_js:
+<%static:js group='application'/>
+<%static:js group='module-js'/>
+% endif
+
+  <%block name="js_extra"/>
+
+</body>
+</html>
+
+<%def name="login_query()">${
+  u"?course_id={0}&enrollment_action={1}{email_opt_in}".format(
+    urlquote_plus(course_id),
+    urlquote_plus(enrollment_action),
+    email_opt_in=(
+      u"&email_opt_in=" + urlquote_plus(email_opt_in)
+      if email_opt_in else ""
+    )
+  ) if course_id and enrollment_action else ""
+}</%def>
