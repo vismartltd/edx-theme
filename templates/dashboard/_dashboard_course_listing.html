@@ -27,10 +27,13 @@ from student.helpers import (
 
 <%namespace name='static' file='../static_content.html'/>
 <%
-  course_target = reverse('info', args=[course.id.to_deprecated_string()])
+  if not is_course_blocked:
+    course_target = reverse('info', args=[course.id.to_deprecated_string()])
+  else:
+    course_target = ""
 %>
 
-<a href="${ if not is_course_blocked course_target endif | n}">  
+<a href="${course_target}">
   <div class="col-md-6 col-xlg-6">
     <div class="ar-3-2 widget-1-wrapper">
       <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
