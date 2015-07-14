@@ -76,8 +76,7 @@
 <div class="container-fluid container-fixed-lg">
     <!-- START PAGE CONTENT -->
   <div class="container-fluid container-fixed-lg">
-          % if len(course_enrollment_pairs) > 0:
-      <ul class="listing-courses">
+    % if len(course_enrollment_pairs) > 0:
         % for a,b in grouper(2,course_enrollment_pairs):
           <div class="row">
             % for course, enrollment in [a,b]:
@@ -94,8 +93,6 @@
             % endfor
           </div>
         % endfor
-
-      </ul>
     % else:
       <section class="empty-dashboard-message">
         % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
