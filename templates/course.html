@@ -10,7 +10,7 @@ from courseware.courses import course_image_url, get_course_about_section
   <div id="${course.id | h}" class="course-pad">
 
         <div class="course-info">
-            <div class="course-number">${course.display_number_with_default | h}</div>
+            <div class="course-number">#${course.display_number_with_default | h}</div>
             <div class="course-title">${get_course_about_section(course, 'title')}</div>
         </div>
 
