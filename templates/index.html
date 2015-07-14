@@ -168,10 +168,14 @@ from status.status import get_site_status_msg
         <div class="row row-grid-top no-margin">
           <div class="col-md-6 full-height">
             <div id="course-1" class="row half-height course-holder">
-              <%include file="course.html" args="course=courses[0]" />
+              <div class="col-md-12">
+                <%include file="course.html" args="course=courses[0]" />
+              </div>
             </div>
             <div id="course-2" class="row half-height course-holder">
-              <%include file="course.html" args="course=courses[1]" />
+              <div class="col-md-12">
+                <%include file="course.html" args="course=courses[1]" />
+              </div>
             </div>
           </div>
           <div id="course-3" class="col-md-6 full-height no-padding course-holder">
