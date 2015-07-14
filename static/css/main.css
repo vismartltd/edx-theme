@@ -80,15 +80,15 @@ p, h1, h2, h3, h4, h5 {
 }
 
 #course-2 {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid rgba(252, 252, 252, 0.5);
 }
 
 #course-3 {
-  border-left: 1px solid #ddd;
+  border-left: 1px solid rgba(252, 252, 252, 0.5);
 }
 
 #course-4 {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid rgba(252, 252, 252, 0.5);
 }
 
 .row-grid-top {
