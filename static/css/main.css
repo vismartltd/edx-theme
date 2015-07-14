@@ -101,14 +101,14 @@ p, h1, h2, h3, h4, h5 {
   height: 35%
 }
 
-.course-pad {
+.course-holder {
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
   overflow: hidden;
   transition: top 1s ease-out 0.5s;
 }
 
-.course-pad:hover {
+.course-holder:hover {
   opacity: 1;
 }
 
