@@ -30,7 +30,7 @@ from student.helpers import (
   course_target = reverse('info', args=[course.id.to_deprecated_string()])
 %>
 
-<a ${'href="${course_target}"' if not is_course_blocked}>  
+<a href="{% if not is_course_blocked %} ${course_target} {% endif %}">  
   <div class="col-md-6 col-xlg-6">
     <div class="ar-3-2 widget-1-wrapper">
       <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
