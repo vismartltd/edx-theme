@@ -125,5 +125,13 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .hint-text > a {
+  color: #eee
+}
+
+.hint-text > a:hover {
   color: #fff
+}
+
+.pull-bottom.bottom-left.bottom-right > * {
+  text-shadow: 1px 1px 1px #000;
 }
