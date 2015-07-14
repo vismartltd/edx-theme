@@ -114,6 +114,10 @@ p, h1, h2, h3, h4, h5 {
   opacity: 1;
 }
 
+.course-pad > * {
+  text-transform: uppercase;
+}
+
 .course-info {
   position: absolute;
   bottom: 20px;
