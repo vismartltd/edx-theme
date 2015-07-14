@@ -101,6 +101,10 @@ p, h1, h2, h3, h4, h5 {
   height: 35%
 }
 
+.course-pad {
+  height: 100%
+}
+
 .course-holder-inner {
   background-color: rgba(0,0,0,0.5);
   opacity: 0;
