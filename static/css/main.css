@@ -8,8 +8,16 @@ p, h1, h2, h3, h4, h5 {
 	src: url('../assets/fonts/Circe.otf');
 }
 
-body {
-  font-family: Circe;
+* {
+  font-family: Circe !important;
+}
+
+[class^="pg-"], [class*=" pg-"] {
+  font-family: "pages-icons" !important;
+}
+
+.fa {
+  font-family: FontAwesome !important;
 }
 
 .bg-pic {
