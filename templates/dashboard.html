@@ -79,7 +79,7 @@
     % if len(course_enrollment_pairs) > 0:
         % for a,b in grouper(2,course_enrollment_pairs):
           <div class="row p-b-30">
-            % if a && b:
+            % if b is not UNDEFINED:
               % for course, enrollment in [a,b]:
                   <% show_courseware_link = (course.id in show_courseware_links_for) %>
                   <% cert_status = cert_statuses.get(course.id) %>
