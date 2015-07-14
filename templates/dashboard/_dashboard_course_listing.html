@@ -33,137 +33,127 @@ from student.helpers import (
     course_target = ""
 %>
 
-<a href="${course_target}">
-  <div class="col-md-6 col-xlg-6 course-list-tile">
-    <div class="ar-3-2 widget-1-wrapper">
-      <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
-        <img src="${course_image_url(course)}" alt="" class="course-cover"/>
-        <div class="panel-heading top-right ">
-          <div class="panel-controls">
-            <ul>
-              <li class="unenroll-block">
-                % if is_paid_course and show_refund_option:
-                  ## Translators: The course's name will be added to the end of this sentence.
-                  % if not is_course_blocked:
-                  <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % else:
-                  <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % endif
-                % elif is_paid_course and not show_refund_option:
-                  ## Translators: The course's name will be added to the end of this sentence.
-                  % if not is_course_blocked:
-                  <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will not be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % else:
-                  <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will not be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % endif
-                % elif enrollment.mode != "verified":
-                  ## Translators: The course's name will be added to the end of this sentence.
-                  % if not is_course_blocked:
-                  <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from")}'; document.getElementById('refund-info').innerHTML=''">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % else:
-                  <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from")}'; document.getElementById('refund-info').innerHTML=''">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % endif
-                % elif show_refund_option:
-                  ## Translators: The course's name will be added to the end of this sentence.
-                  % if not is_course_blocked:
-                  <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % else:
-                  <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
-                  document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % endif
+<div class="col-md-6 col-xlg-6 course-list-tile">
+  <div class="ar-3-2 widget-1-wrapper">
+    <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
+      <img src="${course_image_url(course)}" alt="" class="course-cover"/>
+      <div class="panel-heading top-right ">
+        <div class="panel-controls">
+          <ul>
+            <li class="unenroll-block">
+              % if is_paid_course and show_refund_option:
+                ## Translators: The course's name will be added to the end of this sentence.
+                % if not is_course_blocked:
+                <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
+                document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
                 % else:
-                  ## Translators: The course's name will be added to the end of this sentence.
-                  % if not is_course_blocked:
-                  <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
-                  document.getElementById('refund-info').innerHTML=gettext('The refund deadline for this course has passed, so you will not receive a refund.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % else:
-                  <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
-                  document.getElementById('refund-info').innerHTML=gettext('The refund deadline for this course has passed, so you will not receive a refund.')">
-                    ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
-                  </a>
-                  % endif
+                <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
+                document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
                 % endif
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="panel-body">
-          <div class="pull-bottom bottom-left bottom-right ">
-            <span class="label fs-11">#${course.display_number_with_default | h}</span>
-            <br>
-            <h2 class="text-white">${course.display_name_with_default}</h2>
-            <p class="text-white hint-text">
-              % if course_requirements:
-              ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
-              <% prc_target = reverse('about_course', args=[unicode(course_requirements['courses'][0]['key'])]) %>
-                ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
-                    link_start='<a href="{}">'.format(prc_target),
-                    link_end='</a>',
-                    prc_display=course_requirements['courses'][0]['display'],
-                  )}
+              % elif is_paid_course and not show_refund_option:
+                ## Translators: The course's name will be added to the end of this sentence.
+                % if not is_course_blocked:
+                <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
+                document.getElementById('refund-info').innerHTML=gettext('You will not be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % else:
+                <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the purchased course")}';
+                document.getElementById('refund-info').innerHTML=gettext('You will not be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % endif
+              % elif enrollment.mode != "verified":
+                ## Translators: The course's name will be added to the end of this sentence.
+                % if not is_course_blocked:
+                <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from")}'; document.getElementById('refund-info').innerHTML=''">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % else:
+                <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from")}'; document.getElementById('refund-info').innerHTML=''">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % endif
+              % elif show_refund_option:
+                ## Translators: The course's name will be added to the end of this sentence.
+                % if not is_course_blocked:
+                <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
+                document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % else:
+                <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
+                document.getElementById('refund-info').innerHTML=gettext('You will be refunded the amount you paid.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % endif
               % else:
-                % if course.has_ended():
-                ${_("Course Completed - {end_date}").format(end_date=course.end_datetime_text("DATE_TIME"))}
-                % elif course.has_started():
-                ${_("Course Started - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
-                % elif course.start_date_is_still_default: # Course start date TBD
-                ${_("Course has not yet started")}
-                % else:   # hasn't started yet
-                ${_("Course Starts - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
+                ## Translators: The course's name will be added to the end of this sentence.
+                % if not is_course_blocked:
+                <a href="#unenroll-modal" class="unenroll" rel="leanModal" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
+                document.getElementById('refund-info').innerHTML=gettext('The refund deadline for this course has passed, so you will not receive a refund.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
+                % else:
+                <a class="disable-look-unregister" data-course-id="${course.id | h}" data-course-number="${course.number | h}" onclick="document.getElementById('track-info').innerHTML='${_("Are you sure you want to unenroll from the verified {cert_name_long} track of").format(cert_name_long=cert_name_long)}';
+                document.getElementById('refund-info').innerHTML=gettext('The refund deadline for this course has passed, so you will not receive a refund.')">
+                  ${_('Unenroll')} <i class="portlet-icon fa fa-close"></i></a>
+                </a>
                 % endif
               % endif
-            </p>
-            <div class="row stock-rates m-t-15">
-              <div class="company col-xs-4">
-                <div>
-                  <p class="bold text-white m-t-15 fs-16 lh-normal">
-                    ${get_course_about_section(course, 'university')}
-                  </p>
-                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="pull-bottom bottom-left bottom-right ">
+          <span class="label fs-11">#${course.display_number_with_default | h}</span>
+          <br>
+          <h2 class="text-white">${course.display_name_with_default}</h2>
+          <p class="text-white hint-text">
+            % if course_requirements:
+            ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
+            <% prc_target = reverse('about_course', args=[unicode(course_requirements['courses'][0]['key'])]) %>
+              ${_("You must successfully complete {link_start}{prc_display}{link_end} before you begin this course.").format(
+                  link_start='<a href="{}">'.format(prc_target),
+                  link_end='</a>',
+                  prc_display=course_requirements['courses'][0]['display'],
+                )}
+            % else:
+              % if course.has_ended():
+              ${_("Course Completed - {end_date}").format(end_date=course.end_datetime_text("DATE_TIME"))}
+              % elif course.has_started():
+              ${_("Course Started - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
+              % elif course.start_date_is_still_default: # Course start date TBD
+              ${_("Course has not yet started")}
+              % else:   # hasn't started yet
+              ${_("Course Starts - {start_date}").format(start_date=course.start_datetime_text("DATE_TIME"))}
+              % endif
+            % endif
+          </p>
+          <div class="row stock-rates m-t-15">
+            <div class="company col-xs-4">
+              <div>
+                <p class="bold text-white m-t-15 fs-16 lh-normal">
+                  ${get_course_about_section(course, 'university')}
+                </p>
               </div>
-              <div class="company col-xs-4">
-              </div>
-              <div class="company col-xs-4">
-                <div class="pull-right">
-                  <p class="font-montserrat text-success no-margin fs-16">
-                    <i class="fa fa-caret-up"></i> +0.95%
-                    <span class="font-arial text-white fs-12 hint-text m-l-5">278.87</span>
-                  </p>
-                  <p class="bold text-white no-margin fs-11 font-montserrat lh-normal">
-                    PAGES
-                  </p>
-                </div>
-              </div>
+            </div>
+            <div class="company col-xs-4">
+            </div>
+            <div class="company col-xs-4">
+              <a class="course-link" href="${course_target}">Перейти к курсу</a>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</a>
+</div>
 
  <script>
            $( document ).ready(function() {

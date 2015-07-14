@@ -139,3 +139,12 @@ p, h1, h2, h3, h4, h5 {
 .unenroll-block, .unenroll-block > a {
   color: #fff
 }
+
+.course-link {
+  color: #ddd;
+  padding: 10px 15px
+}
+
+.course-link:hover {
+  color: #fff;
+}
