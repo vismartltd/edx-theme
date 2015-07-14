@@ -103,8 +103,12 @@ p, h1, h2, h3, h4, h5 {
 
 .course-pad {
   background-color: rgba(0,0,0,0.5);
-  height: 0;
+  opacity: 0;
   overflow: hidden;
+}
+
+.course-pad:hover {
+  opacity: 1;
 }
 
 #video-cover {
