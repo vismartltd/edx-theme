@@ -30,8 +30,10 @@
 
         $('.course-pad').hover(function() {
           console.log('hover new 3');
-          $(this).animate({ opacity: '100%' }, 500, 'linear');
+          $(this).removeClass('hidden animated fadeOut').addClass('animated fadeIn')
         }, function() {
-            $(this).animate({ opacity: '0' }, 500);
+            $(this).removeClass('animated fadeIn').addClass('animated fadeOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+              $(this).addClass('hidden')
+            });
           });
     })
