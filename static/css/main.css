@@ -134,6 +134,7 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .course-org-info {
+  color: #fff;
   text-align: right;
   position: absolute;
   right: 30px;
