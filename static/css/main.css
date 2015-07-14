@@ -135,3 +135,7 @@ p, h1, h2, h3, h4, h5 {
 .panel-body > .pull-bottom.bottom-left.bottom-right > h2, p {
   text-shadow: 1px 1px 1px #000;
 }
+
+.unenroll-block, .unenroll-block > a {
+  color: #fff
+}
