@@ -39,6 +39,25 @@
       return izip_longest(fillvalue=fillvalue, *args)
 %>
 
+<%block name="jumbotron">
+<div class="jumbotron " data-pages="parallax">
+  <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+    <div class="inner">
+      <!-- START BREADCRUMB -->
+      <ul class="breadcrumb">
+        <li>
+          <p>Курсы</p>
+        </li>
+        <li><a href="#" class="active">Доступные курсы</a>
+        </li>
+      </ul>
+      <!-- END BREADCRUMB -->
+    </div>
+
+  </div>
+</div>
+</%block>
+
 <section class="find-courses">
 
   % if len(courses) > 0:
