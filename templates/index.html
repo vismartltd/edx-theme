@@ -156,7 +156,19 @@ from status.status import get_site_status_msg
   <div id="logo-top-index">
     <img src="static/themes/ninenone/assets/img/logo.png" alt="logo"/>
   </div>
-  <div id="login-button"><a class="login-button-toggle" href="#">Войти</a></div>
+  <div id="login-button">
+  % if third_party_auth.is_enabled():
+
+  <div class="form-actions form-third-party-auth">
+
+  % for enabled in provider.Registry.enabled():
+    ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
+    <button type="submit" class="login-button-toggle button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>${_('Sign in with {provider_name}').format(provider_name=enabled.NAME)}</button>
+  % endfor
+
+  </div>
+
+  % endif
 
   <div class="bg-pic">
     <video id="video-cover" muted loop autoplay poster="static/themes/ninenone/assets/new-york-city-buildings-sunrise-morning-hd-wallpaper.jpg">
@@ -190,78 +202,9 @@ from status.status import get_site_status_msg
         % endif
       </div>
     </div>
-    <%doc>
-      % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
-        <section class="courses">
-            <ul class="courses-listing">
-            %for course in courses:
-              <li class="courses-listing-item">
-                <%include file="course.html" args="course=course" />
-              </li>
-            %endfor
-            </ul>
-        </section>
-      % endif
-    </%doc>
   </div>
   <!-- END Login Background Pic Wrapper-->
-  <!-- START Login Right Container-->
-  <div class="login-container bg-white hidden">
-    <a href="#" class="login-close-button">
-      <i class="fa fa-close"></i>
-    </a>
-    <div class="p-l-50 m-l-20 p-r-50 m-r-20 p-t-50 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
-      <img src="static/themes/ninenone/assets/img/logo.png" alt="logo" data-src="static/themes/ninenone/assets/img/logo.png" data-src-retina="static/themes/ninenone/assets/img/logo_2x.png">
-      <p class="p-t-35">Войти в систему обучения</p>
-      <!-- START Login Form -->
-      <form id="form-login" class="p-t-15" role="form" method="post" data-remote="true" action="/login_ajax">
-        <!-- START Form Control-->
-        <div class="form-group form-group-default">
-          <label>Login</label>
-          <div class="controls">
-            <input id="email" type="text" name="email" placeholder="User Name" class="form-control" required>
-          </div>
-        </div>
-        <!-- END Form Control-->
-        <!-- START Form Control-->
-        <div class="form-group form-group-default">
-          <label>Password</label>
-          <div class="controls">
-            <input id="password" type="password" class="form-control" name="password" placeholder="Credentials" required>
-          </div>
-        </div>
-        <!-- START Form Control-->
-        <div class="row">
-          <div class="col-md-6 no-padding">
-            <div class="checkbox ">
-              <input id="remember-yes" type="checkbox" value="true" name="remember-yes">
-              <label for="checkbox1">Keep Me Signed in</label>
-            </div>
-          </div>
-          <div class="col-md-6 text-right">
-            <a href="#" class="text-info small">Help? Contact Support</a>
-          </div>
-        </div>
-        <!-- END Form Control-->
-        <button id="submit" class="btn btn-primary btn-cons m-t-10" type="submit">Sign in</button>
-      </form>
-      <!--END Login Form-->
-      <div class="pull-bottom sm-pull-bottom">
-        <div class="m-b-30 p-r-80 sm-m-t-20 sm-p-r-15 sm-p-b-20 clearfix">
-          <div class="col-sm-3 col-md-2 no-padding">
-            <img alt="" class="m-t-5" data-src="assets/img/demo/pages_icon.png" data-src-retina="assets/img/demo/pages_icon_2x.png" height="60" src="assets/img/demo/pages_icon.png" width="60">
-          </div>
-          <div class="col-sm-9 no-padding m-t-10">
-            <p><small>
-            Create a pages account. If you have a facebook account, log into it for this process. Sign in with <a href="#" class="text-info">Facebook</a> or <a href="#" class="text-info">Google</a></small>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- END Login Right Container-->
-</div>
+
 
 <%block name="footer">
 </%block>
