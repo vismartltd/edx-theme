@@ -31,6 +31,14 @@
     logo_alt_text = _("{platform_name} Logo").format(platform_name=platform_name)
 %>
 
+<%!
+  from itertools import izip_longest
+  def grouper(n, iterable, fillvalue=None):
+      "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
+      args = [iter(iterable)] * n
+      return izip_longest(fillvalue=fillvalue, *args)
+%>
+
 <section class="find-courses">
 
   %for course in courses:
