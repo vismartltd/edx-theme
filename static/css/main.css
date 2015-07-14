@@ -107,6 +107,7 @@ p, h1, h2, h3, h4, h5 {
   opacity: 0;
   overflow: hidden;
   transition: opacity 0.8s ease-out 0s;
+  position: relative;
 }
 
 .course-pad:hover {
