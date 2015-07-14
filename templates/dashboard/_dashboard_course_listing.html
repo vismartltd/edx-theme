@@ -27,7 +27,7 @@ from student.helpers import (
 
 <%namespace name='static' file='../static_content.html'/>
 <%
-  if not is_course_blocked:
+  if not (is_course_blocked or course_requirements):
     course_target = reverse('info', args=[course.id.to_deprecated_string()])
   else:
     course_target = ""
