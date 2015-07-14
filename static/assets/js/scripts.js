@@ -31,10 +31,10 @@
         $('.course-pad').hover(function() {
           console.log('hover new 3');
           $(this).removeClass('hidden animated fadeOut').addClass('animated fadeIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
-            $(this).children('div').removeClass('hidden animated fadeOut').addClass('animated fadeIn');
+            $(this).children('div').removeClass('hidden animated bounceOut').addClass('animated bounceIn');
           });
         }, function() {
-            $(this).children('div').removeClass('animated fadeIn').addClass('animated fadeOut');
+            $(this).children('div').removeClass('animated bounceIn').addClass('animated bounceOut');
             $(this).removeClass('animated fadeIn').addClass('animated fadeOut')
         });
     })
