@@ -1,0 +1,48 @@
+<%namespace name='static' file='static_content.html'/>
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from courseware.courses import course_image_url, get_course_about_section
+%>
+<%page args="course" />
+
+<div class="col-md-6 col-xlg-6 course-list-tile">
+  <div class="ar-3-2 widget-1-wrapper">
+    <div class="widget-1 panel no-border bg-complete no-margin widget-loader-circle-lg" data-cover-image="${course_image_url(course)}">
+      <img src="${course_image_url(course)}" alt="" class="course-cover"/>
+      <div class="panel-heading top-right ">
+        <div class="panel-controls">
+          <ul>
+            <li class="unenroll-block">
+
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="pull-bottom bottom-left bottom-right ">
+          <span class="label fs-11">#${course.display_number_with_default | h}</span>
+          <br>
+          <h2 class="text-white m-t-5">${course.display_name_with_default}</h2>
+          <p class="text-white hint-text">
+            ${get_course_about_section(course, 'short_description')}
+          </p>
+          <div class="row stock-rates m-t-15">
+            <div class="company col-xs-4">
+              <div>
+                <p class="bold text-white m-t-15 fs-16 lh-normal">
+                  ${get_course_about_section(course, 'university')}
+                </p>
+              </div>
+            </div>
+            <div class="company col-xs-4">
+            </div>
+            <div class="company col-xs-4">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

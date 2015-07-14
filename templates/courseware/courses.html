@@ -46,10 +46,10 @@
 
 
       <ul class="courses-listing">
-	%for course in courses:
-        <li class="courses-listing-item">
-          <%include file="../course.html" args="course=course" />
-        </li>
+      	%for course in courses:
+        <div class="row p-b-30">
+          <%include file="../course-admin.html" args="course=course" />
+        </div>
         %endfor
       </ul>
 
