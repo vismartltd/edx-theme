@@ -132,7 +132,7 @@ p, h1, h2, h3, h4, h5 {
   color: #fff
 }
 
-.course-list-tile h2, p {
+.course-list-tile h2, .course-list-tile p {
   text-shadow: 1px 1px 1px #000;
 }
 
