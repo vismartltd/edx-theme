@@ -146,7 +146,9 @@ from student.helpers import (
             <div class="company col-xs-4">
             </div>
             <div class="company col-xs-4">
-              <a class="course-link pull-right" href="${course_target}">Перейти к курсу</a>
+              % if course_requirements:
+                <a class="course-link pull-right" href="${course_target}">Перейти к курсу</a>
+              % endif
             </div>
           </div>
         </div>
