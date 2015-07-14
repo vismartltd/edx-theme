@@ -107,3 +107,36 @@
     % endif
   </div>
 </div>
+
+<section id="unenroll-modal" class="modal unenroll-modal" aria-hidden="true">
+  <div class="inner-wrapper" role="dialog" aria-labelledby="unenrollment-modal-title">
+    <button class="close-modal">
+      <i class="icon fa fa-remove"></i>
+      <span class="sr">
+        ## Translators: this is a control to allow users to exit out of this modal interface (a menu or piece of UI that takes the full focus of the screen)
+        ${_("Close")}
+      </span>
+    </button>
+
+    <header>
+      <h2 id="unenrollment-modal-title">
+        <span id='track-info'></span>
+        <span id='unenroll_course_number'></span>?
+        <span id='refund-info'></span>
+        <span class="sr">,
+          ## Translators: this text gives status on if the modal interface (a menu or piece of UI that takes the full focus of the screen) is open or not
+          ${_("window open")}
+        </span>
+      </h2>
+      <hr/>
+    </header>
+    <div id="unenroll_error" class="modal-form-error"></div>
+    <form id="unenroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
+      <input name="course_id" id="unenroll_course_id" type="hidden" />
+      <input name="enrollment_action" type="hidden" value="unenroll" />
+      <div class="submit">
+        <input name="submit" type="submit" value="${_("Unenroll")}" />
+      </div>
+    </form>
+  </div>
+</section>
