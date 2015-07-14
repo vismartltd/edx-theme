@@ -1,7 +1,7 @@
 $ ->
   $('.course-pad').hover (->
     console.log 'hover new 2'
-   	$(this).animate({opacity: '100%'}, 500, 'ease-out', ( ->
+   	$(this).animate({opacity: '100%'}, 500, 'linear', ( ->
       $(this).children('div').animate({opacity: '100%'}, 500))
     )),
   	(->
