@@ -13,6 +13,15 @@
   cert_name_long = settings.CERT_NAME_LONG
 %>
 
+<%!
+  from itertools import izip_longest
+  def grouper(n, iterable, fillvalue=None):
+      "grouper(3, 'ABCDEFG', 'x') --> ABC DEF Gxx"
+      args = [iter(iterable)] * n
+      return izip_longest(fillvalue=fillvalue, *args)
+%>
+
+
 <%inherit file="admin_layout.html" />
 
 <%namespace name='static' file='static_content.html'/>
