@@ -140,3 +140,72 @@
     </form>
   </div>
 </div>
+
+<div aria-hidden="false" role="dialog" tabindex="-1" id="modalSlideUp" class="modal fade slide-up disable-scroll in">
+  <div class="modal-dialog">
+    <div class="modal-content-wrapper">
+      <div class="modal-content">
+        <div class="modal-header clearfix text-left">
+          <button aria-hidden="true" data-dismiss="modal" class="close" type="button"><i class="pg-close fs-14"></i>
+          </button>
+          <span id='track-info'></span>
+          <span id='unenroll_course_number'></span>?
+          <span id='refund-info'></span>
+        </div>
+        <div class="modal-body">
+          <div id="unenroll_error" class="modal-form-error"></div>
+          <form id="unenroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
+            <input name="course_id" id="unenroll_course_id" type="hidden" />
+            <input name="enrollment_action" type="hidden" value="unenroll" />
+            <div class="submit">
+              <input name="submit" type="submit" value="${_("Unenroll")}" />
+            </div>
+          </form>
+        </div>
+          <!-- <form role="form">
+            <div class="form-group-attached">
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="form-group form-group-default">
+                    <label>Company Name</label>
+                    <input type="email" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="form-group form-group-default">
+                    <label>Card Number</label>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="form-group form-group-default">
+                    <label>Card Holder</label>
+                    <input type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="p-t-20 clearfix p-l-10 p-r-10">
+                <div class="pull-left">
+                  <p class="bold font-montserrat text-uppercase">TOTAL</p>
+                </div>
+                <div class="pull-right">
+                  <p class="bold font-montserrat text-uppercase">$20.00</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4 m-t-10 sm-m-t-10">
+              <button class="btn btn-primary btn-block m-t-5" type="button">Pay Now</button>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+</div>
