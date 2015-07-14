@@ -30,15 +30,11 @@
 
         $('.course-pad').hover(function() {
           console.log('hover new 3');
-          $(this).removeClass('hidden animated fadeOut').addClass('animated fadeIn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-            $(this).children('div').removeClass('hidden animated fadeOut').addClass('animated fadeIn')
-          });
+          $(this).removeClass('hidden animated fadeOut').addClass('animated fadeIn');
+          $(this).children('div').removeClass('hidden animated fadeOut').addClass('animated fadeIn');
+
         }, function() {
-            $(this).children('div').removeClass('animated fadeIn').addClass('animated fadeOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-              $(this).children('div').addClass('hidden');
-              $(this).removeClass('animated fadeIn').addClass('animated fadeOut').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-                $(this).addClass('hidden');
-              });
-            });
-          });
+            $(this).children('div').removeClass('animated fadeIn').addClass('animated fadeOut hidden');
+            $(this).removeClass('animated fadeIn').addClass('animated fadeOut hidden')
+        });
     })
