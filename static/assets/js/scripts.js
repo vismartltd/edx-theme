@@ -1,6 +1,6 @@
  $(document).ready(function() {
         // Initializes search overlay plugin.
-        // Replace onSearchSubmit() and onKeyEnter() with 
+        // Replace onSearchSubmit() and onKeyEnter() with
         // your logic to perform a search and display results
         $('[data-pages="search"]').search({
             searchField: '#overlay-search',
@@ -27,4 +27,11 @@
                 $(this).data('timer', wait);
             }
         });
+
+        $('.course-pad').hover(function() {
+          console.log('hover new 3');
+          $(this).animate({ opacity: '100%' }, 500, 'linear');
+        }, function() {
+            $(this).animate({ opacity: '0' }, 500);
+          });
     })
