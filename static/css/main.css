@@ -12,6 +12,8 @@ p, h1, h2, h3, h4, h5 {
   font-family: Circe !important;
 }
 
+/* Reset icon fonts to their defaults after our override */
+
 [class^="pg-"], [class*=" pg-"] {
   font-family: "pages-icon" !important;
 }
