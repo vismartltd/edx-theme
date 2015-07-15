@@ -141,14 +141,14 @@
 
 
   <%include file="${header_file}" />
-%if user.is_authenticated():
+
 <!-- BEGIN SIDEBAR -->
 <div class="page-sidebar" data-pages="sidebar">
   <div id="appMenu" class="sidebar-overlay-slide from-top">
   </div>
   <!-- BEGIN SIDEBAR HEADER -->
   <div class="sidebar-header">
-    <img src="static/themes/ninenone/assets/img/logo.png" alt="logo" class="brand" data-src="static/themes/ninenone/assets/img/logo.png" data-src-retina="static/themes/ninenone/assets/img/logo.png" width="93" height="25">
+    <img src="/static/themes/ninenone/assets/img/logo.png" alt="logo" class="brand" data-src="/static/themes/ninenone/assets/img/logo.png" data-src-retina="/static/themes/ninenone/assets/img/logo.png" width="93" height="25">
     <div class="sidebar-header-controls">
       <button data-pages-toggle="#appMenu" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" type="button"><i class="fa fa-angle-down fs-16"></i>
       </button>
@@ -160,6 +160,7 @@
   <!-- BEGIN SIDEBAR MENU -->
   <div class="sidebar-menu">
     <ul class="menu-items">
+      %if user.is_authenticated():
       <li class="m-t-30">
         <a href="${reverse('dashboard')}">
           <span class="title">Активные курсы</span>
@@ -167,6 +168,7 @@
         <span class="icon-thumbnail "><i class="pg-home"></i>
                 </span>
       </li>
+      % endif
       <li class="">
         <a href="${marketing_link('COURSES')}">
           <span class="title">Все курсы</span>
@@ -210,7 +212,6 @@
   <!-- END SIDEBAR MENU -->
 </div>
 <!-- END SIDEBAR -->
-% endif
 <!-- START PAGE-CONTAINER -->
 <div class="page-container">
   <!-- START PAGE HEADER WRAPPER -->
