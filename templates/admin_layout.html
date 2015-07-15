@@ -169,7 +169,7 @@
                 </span>
       </li>
       % endif
-      <li class="">
+      <li class="{% if not user.is_authenticated() %}m-t-30{% endif %}">
         <a href="${marketing_link('COURSES')}">
           <span class="title">Все курсы</span>
         </a>
