@@ -80,7 +80,7 @@ from edxmako.shortcuts import marketing_link
                       <!-- START PANEL -->
                       <div class="">
                         <div class="panel-body text-center">
-                          <img class="image-responsive-height demo-mw-500" src="${course_image_url(course)}" alt="course cover">
+                          <img class="image-responsive-height course-view-cover" src="${course_image_url(course)}" alt="course cover">
                         </div>
                       </div>
                       <!-- END PANEL -->
@@ -97,11 +97,6 @@ from edxmako.shortcuts import marketing_link
                           <p>${get_course_about_section(course, "overview")}</p>
                           <br>
                           <div>
-                            <div class="profile-img-wrapper m-t-5 inline">
-                              <img width="35" height="35" src="assets/img/profiles/avatar_small.jpg" alt="Avatar" data-src="assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg">
-                              <div class="chat-status available">
-                              </div>
-                            </div>
                             <div class="inline m-l-10">
                               <p class="small hint-text">VIA senior product manage
                                 <br> for fonts and typography at REVOX</p>
