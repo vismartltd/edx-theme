@@ -80,7 +80,7 @@ from edxmako.shortcuts import marketing_link
                       <!-- START PANEL -->
                       <div class="">
                         <div class="panel-body text-center">
-                          <img class="image-responsive-height demo-mw-500" src="assets/img/demo/typography_hero.gif" alt="Typograpy Hero">
+                          <img class="image-responsive-height demo-mw-500" src="${course_image_url(course)}" alt="course cover">
                         </div>
                       </div>
                       <!-- END PANEL -->
@@ -89,12 +89,12 @@ from edxmako.shortcuts import marketing_link
                       <!-- START PANEL -->
                       <div class="panel panel-transparent">
                         <div class="panel-heading">
-                          <div class="panel-title">Getting started
+                          <div class="panel-title">${get_course_about_section(course, "university")}
                           </div>
                         </div>
                         <div class="panel-body">
-                          <h3>One of the most underestimated elements of design is typography. However, it’s critical in both print and web media. We Made it Perfect in both.</h3>
-                          <p> Программа профессионального обучения (повышения квалификации) водителей, осуществляющих перевозки опасных грузов, - «Базовый курс» (далее - Программа) разработана в соответствии с требованиями Федерального закона от 29.12.2012 № 273-ФЗ «Об образовании в Российской Федерации», приказа Министерства транспорта Российской Федерации от 09.07.2012 № 202 «Об утверждении Порядка выдачи свидетельств о подготовке водителей автотранспортных средств, перевозящих опасные грузы, и утверждения курсов такой подготовки», приказа Министерства образования и науки Российской Федерации от 18.04.2013 № 292 «Об утверждении Порядка организации и осуществления образовательной деятельности по основным программам профессионального обучения» и предписаниями главы 8.2 Приложения В Европейского соглашения о международной дорожной перевозке опасных грузов от 30 сентября 1957 г. (ДОПОГ). Цель обучения состоит в том, чтобы дать водителям необходимый уровень знаний, умений и навыков, для эффективного осуществления перевозок опасных грузов, ознакомить с рисками, связанными с перевозкой опасных грузов, предоставить базовую информацию, необходимую для предотвращения происшествия, а в случае происшествия - для принятия мер по обеспечению безопасности водителя, других людей и ограничению вреда для окружающей среды.</p>
+                          <h3>${get_course_about_section(course, "title")}</h3>
+                          <p>${get_course_about_section(course, "overview")}</p>
                           <br>
                           <div>
                             <div class="profile-img-wrapper m-t-5 inline">
