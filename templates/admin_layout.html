@@ -141,7 +141,7 @@
 
 
   <%include file="${header_file}" />
-
+%if user.is_authenticated()
 <!-- BEGIN SIDEBAR -->
 <div class="page-sidebar" data-pages="sidebar">
   <div id="appMenu" class="sidebar-overlay-slide from-top">
@@ -210,6 +210,7 @@
   <!-- END SIDEBAR MENU -->
 </div>
 <!-- END SIDEBAR -->
+% endif
 <!-- START PAGE-CONTAINER -->
 <div class="page-container">
   <!-- START PAGE HEADER WRAPPER -->
@@ -303,7 +304,9 @@
       <!-- START User Info-->
       <div class="visible-lg visible-md m-t-10">
         <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-          <span class="semi-bold">${ user.profile.name | h }</span>
+          %if user.is_authenticated()
+            <span class="semi-bold">${ user.profile.name | h }</span>
+          % endif
         </div>
         <div class="dropdown pull-right">
           <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" class="profile-dropdown-toggle">
