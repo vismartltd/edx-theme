@@ -140,13 +140,14 @@ from edxmako.shortcuts import marketing_link
                     <div class="main-cta">
                     %if user.is_authenticated() and registered:
                       %if show_courseware_link:
-                        <a href="${course_target}">
+
                       %endif
 
                       <span class="register disabled">${_("You are registered for this course")}</span>
 
                       %if show_courseware_link:
-                        <strong>${_("View Courseware")}</strong>
+                        <a class="btn btn-primary" href="${course_target}">
+                          ${_("View Courseware")}
                         </a>
                       %endif
                     % elif is_course_full:
