@@ -214,6 +214,12 @@ p, h1, h2, h3, h4, h5 {
   margin-left: 25px;
 }
 
+.course-about-enroll .main-cta span {
+  display: block;
+  margin-bottom: 20px;
+}
+
+
 .breadcrumb li .active, .breadcrumb a, .breadcrumb i, .breadcrumb li, .breadcrumb span {
   font-size: 13px;
 }
