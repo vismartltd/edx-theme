@@ -81,17 +81,27 @@ from edxmako.shortcuts import marketing_link
 
   <script src="${static.url('js/course_info.js')}"></script>
 </%block>
+<%block name="jumbotron">
+<div class="jumbotron " data-pages="parallax">
+  <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
+    <div class="inner">
+      <!-- START BREADCRUMB -->
+      <ul class="breadcrumb">
+        <li>
+          <p><a href="/courses" class="active">Курсы</a></p>
+        </li>
+        <li><p>Запись на курс</p>
+        </li>
+      </ul>
+      <!-- END BREADCRUMB -->
+    </div>
 
+  </div>
+</div>
+</%block>
 <%block name="pagetitle">${get_course_about_section(course, "title")}</%block>
 <div class="inner course-about-enroll">
-                <!-- START BREADCRUMB -->
-                <ul class="breadcrumb">
-                  <li>
-                    <p><a href="/courses">Курсы</a></p>
-                  </li>
-                  <li><p>Запись на курс</p></li>
-                </ul>
-                <!-- END BREADCRUMB -->
+
                 <div class="container-md-height m-b-20">
                   <div class="row row-md-height">
                     <!-- START PANEL -->
