@@ -192,9 +192,7 @@ p, h1, h2, h3, h4, h5 {
 }
 
 .course-view-cover {
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  opacity: 0.7
+  opacity: 0.7;
+  padding: 0;
+  margin-bottom: 15px;
 }
