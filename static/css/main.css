@@ -224,3 +224,7 @@ p, h1, h2, h3, h4, h5 {
     font-weight: 300;
     text-shadow: none;
 }
+
+.page-container .page-content-wrapper {
+  height: 100%;
+}
