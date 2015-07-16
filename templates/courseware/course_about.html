@@ -8,15 +8,27 @@ from django.conf import settings
 from edxmako.shortcuts import marketing_link
 %>
 
+<%! import third_party_auth %>
+<%! from third_party_auth import provider, pipeline %>
+
 <%inherit file="../admin_layout.html" />
 
 
 <%block name="js_extra">
 
   <script type="text/javascript">
+  function thirdPartySignin(event, url) {
+    event.preventDefault();
+    window.location.href = url;
+  }
+
   (function() {
     $(".register").click(function(event) {
-      $("#class_enroll_form").submit();
+      %if user.is_authenticated():
+        $("#class_enroll_form").submit();
+      %else:
+        thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');
+      %endif
       event.preventDefault();
     });
 
@@ -121,10 +133,45 @@ from edxmako.shortcuts import marketing_link
                       <!-- END PANEL -->
                     </div>
                   </div>
-                <button class="btn btn-primary">Test</button>
+                  <div class="main-cta">
+                  %if user.is_authenticated() and registered:
+                    %if show_courseware_link:
+                      <a href="${course_target}">
+                    %endif
+
+                    <span class="register disabled">${_("You are registered for this course")}</span>
+
+                    %if show_courseware_link:
+                      <strong>${_("View Courseware")}</strong>
+                      </a>
+                    %endif
+                  % elif is_course_full:
+                    <span class="register disabled">
+                      ${_("Course is full")}
+                    </span>
+                  %else:
+                    <a href="#" class="register">
+                      ${_("Register for {course.display_number_with_default}").format(course=course) | h}
+                    </a>
+                    <div id="register_error"></div>
+                  %endif
+                  </div>
+                <!-- <button class="btn btn-primary">Test</button> -->
                 </div>
               </div>
-
+              %if active_reg_button or is_shib_course:
+                <div style="display: none;">
+                  <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
+                    <fieldset class="enroll_fieldset">
+                      <input name="course_id" type="hidden" value="${course.id | h}">
+                      <input name="enrollment_action" type="hidden" value="enroll">
+                    </fieldset>
+                    <div class="submit">
+                      <input name="submit" type="submit" value="enroll">
+                    </div>
+                  </form>
+                </div>
+              %endif
 <!-- <section class="course-info">
   <header class="course-profile">
     <div class="intro-inner-wrapper">
