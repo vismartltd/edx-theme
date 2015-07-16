@@ -26,7 +26,7 @@ from courseware.courses import course_image_url, get_course_about_section
           <h2 class="text-white m-t-5">${course.display_name_with_default}</h2>
           <p class="text-white hint-text">
             %if len(get_course_about_section(course, 'short_description')) > 0:
-              <p>${${get_course_about_section(course, 'short_description')}}</p>
+              <p>${get_course_about_section(course, 'short_description')}</p>
             %else:
               <p>Описание курса отсутствует</p>
             %endif
