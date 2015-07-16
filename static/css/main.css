@@ -213,3 +213,14 @@ p, h1, h2, h3, h4, h5 {
 .course-about-enroll .main-cta {
   margin-left: 25px;
 }
+
+.breadcrumb li .active, .breadcrumb a, .breadcrumb i, .breadcrumb li, .breadcrumb span {
+  font-size: 13px;
+}
+
+.breadcrumb a, .breadcrumb i, .breadcrumb li, .breadcrumb span {
+    color: ##6d5cae;
+    font-size: 13px;
+    font-weight: 300;
+    text-shadow: none;
+}
