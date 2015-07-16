@@ -140,7 +140,7 @@ from edxmako.shortcuts import marketing_link
                         ${_("Course is full")}
                       </span>
                     %else:
-                      <a href="#" class="register">
+                      <a href="#" class="btn btn-primary register">
                         ${_("Register for {course.display_number_with_default}").format(course=course) | h}
                       </a>
                       <div id="register_error"></div>
