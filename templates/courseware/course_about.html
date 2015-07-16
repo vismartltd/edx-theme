@@ -112,7 +112,10 @@ from edxmako.shortcuts import marketing_link
                     <!-- START PANEL -->
                     <div class="panel panel-transparent course-view-info">
                       <div class="panel-heading">
-                        <div class="panel-title" style="padding: 0">${get_course_about_section(course, "university")}
+                        <div class="panel-title" style="padding: 0">
+                          ${get_course_about_section(course, "university")}
+                          <br/>
+                          ${course.display_number_with_default | h}
                         </div>
                       </div>
                       <div class="panel-body">
@@ -156,7 +159,7 @@ from edxmako.shortcuts import marketing_link
                       </span>
                     %else:
                       <a href="#" class="btn btn-primary register">
-                        ${_("Register for {course.display_number_with_default}").format(course=course) | h}
+                        Записаться на курс
                       </a>
                       <div id="register_error"></div>
                     %endif
