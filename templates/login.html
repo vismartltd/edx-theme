@@ -131,15 +131,27 @@
     })(${pipeline_running})
   </script>
 </%block>
-    % if third_party_auth.is_enabled():
+<div class="inner full-height">
+                <div class="container-xs-height full-height">
+                  <div class="col-xs-height col-middle text-center">
+                    <div class="col-md-6 col-md-offset-3 text-center">
+                      <h2 class="text-center">
+                        Для продолжения необходимо войти или зарегистрироваться в системе
+                      </h2>
+                      % if third_party_auth.is_enabled():
 
-    <div class="form-actions form-third-party-auth">
+                      <div class="form-actions form-third-party-auth">
 
-    % for enabled in provider.Registry.enabled():
-      ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
-      <button type="submit" class="btn btn-primary button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>Войти</button>
-    % endfor
+                      % for enabled in provider.Registry.enabled():
+                        ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
+                        <button type="submit" class="btn btn-primary button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>Войти</button>
+                      % endfor
 
-    </div>
+                      </div>
 
-    % endif
+                      % endif
+
+                    </div>
+                  </div>
+                </div>
+              </div>
