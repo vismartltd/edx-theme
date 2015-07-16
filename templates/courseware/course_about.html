@@ -72,18 +72,27 @@ from edxmako.shortcuts import marketing_link
 </%block>
 
 <%block name="pagetitle">${get_course_about_section(course, "title")}</%block>
-
-<div class="inner full-height" style="transform: translateY(0px); opacity: 1; padding-top: 200px;">
-                <div class="container-xs-height ">
-                  <div class="row row-md-height" style="padding-top: 0px; margin-top: 0px;">
-                    <div class="col-lg-7  col-md-height col-middle bg-white">
+<div class="inner">
+                <!-- START BREADCRUMB -->
+                <ul class="breadcrumb">
+                  <li>
+                    <p>Home</p>
+                  </li>
+                  <li><a class="active" href="#">Parrallax</a>
+                  </li>
+                </ul>
+                <!-- END BREADCRUMB -->
+                <div class="container-md-height m-b-20">
+                  <div class="row row-md-height">
+                    <div class="col-middle bg-white">
                       <!-- START PANEL -->
                       <div class="">
                         <div class="panel-body text-center">
-                          <img class="image-responsive-height course-view-cover" src="${course_image_url(course)}" alt="course cover">
+                          <img alt="Typograpy Hero" src="${course_image_url(course)}" class="image-responsive-height demo-mw-500">
                         </div>
                       </div>
                       <!-- END PANEL -->
+
                     </div>
                     <div class="col-lg-5 col-md-height col-md-6 col-top">
                       <!-- START PANEL -->
@@ -97,18 +106,25 @@ from edxmako.shortcuts import marketing_link
                           <p>${get_course_about_section(course, "overview")}</p>
                           <br>
                           <div>
+                            <!-- <div class="profile-img-wrapper m-t-5 inline">
+                              <img width="35" height="35" src="assets/img/profiles/avatar_small.jpg" alt="Avatar" data-src="assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg">
+                              <div class="chat-status available">
+                              </div>
+                            </div>
                             <div class="inline m-l-10">
                               <p class="small hint-text">VIA senior product manage
                                 <br> for fonts and typography at REVOX</p>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
                       <!-- END PANEL -->
                     </div>
                   </div>
+                <button class="btn btn-primary">Test</button>
                 </div>
               </div>
+
 <!-- <section class="course-info">
   <header class="course-profile">
     <div class="intro-inner-wrapper">
