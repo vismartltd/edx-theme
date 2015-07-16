@@ -117,7 +117,11 @@ from edxmako.shortcuts import marketing_link
                       </div>
                       <div class="panel-body">
                         <h3>${get_course_about_section(course, "title")}</h3>
-                        <p>${get_course_about_section(course, "overview")}</p>
+                        %if len(get_course_about_section(course, "overview")) > 0:
+                          <p>${get_course_about_section(course, "overview")}</p>
+                        %else:
+                          <p>Описание курса отсутствует</p>
+                        %endif
                         <br>
                         <div>
                           <!-- <div class="profile-img-wrapper m-t-5 inline">
