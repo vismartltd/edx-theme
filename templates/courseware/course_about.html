@@ -10,7 +10,6 @@ from edxmako.shortcuts import marketing_link
 
 <%! import third_party_auth %>
 <%! from third_party_auth import provider, pipeline %>
-
 <%inherit file="../admin_layout.html" />
 
 
@@ -27,7 +26,7 @@ from edxmako.shortcuts import marketing_link
       %if user.is_authenticated():
         $("#class_enroll_form").submit();
       %else:
-        thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');
+        thirdPartySignin(event, '${pipeline_url[provider.Registry.enabled()[0].NAME]}');
       %endif
       event.preventDefault();
     });
