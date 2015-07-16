@@ -194,9 +194,14 @@ p, h1, h2, h3, h4, h5 {
 .course-view-cover {
   opacity: 0.7;
   padding: 0;
-  margin-bottom: 15px;
+  float: left;
+  margin: 0px 40px 20px 25px;
 }
 
 .course-about-enroll {
   padding-top: 0
+}
+
+.course-about-enroll .main-cta {
+  margin-left: 25px;
 }
