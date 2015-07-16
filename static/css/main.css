@@ -198,11 +198,11 @@ p, h1, h2, h3, h4, h5 {
   margin: 0px 40px 20px 25px;
 }
 
-.course-view-cover .panel-heading {
+.course-view-info .panel-heading {
   padding-top: 0;
 }
 
-.course-view-cover .panel-title {
+.course-view-info .panel-title {
   padding: 0;
 }
 

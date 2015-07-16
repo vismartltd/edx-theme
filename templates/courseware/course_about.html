@@ -101,7 +101,7 @@ from edxmako.shortcuts import marketing_link
                     </div>
                     <!-- END PANEL -->
                     <!-- START PANEL -->
-                    <div class="panel panel-transparent">
+                    <div class="panel panel-transparent course-view-info">
                       <div class="panel-heading">
                         <div class="panel-title" style="padding: 0">${get_course_about_section(course, "university")}
                         </div>
@@ -124,29 +124,29 @@ from edxmako.shortcuts import marketing_link
                       </div>
                     </div>
                     <!-- END PANEL -->
-                  </div>
-                  <div class="main-cta">
-                  %if user.is_authenticated() and registered:
-                    %if show_courseware_link:
-                      <a href="${course_target}">
-                    %endif
+                    <div class="main-cta">
+                    %if user.is_authenticated() and registered:
+                      %if show_courseware_link:
+                        <a href="${course_target}">
+                      %endif
 
-                    <span class="register disabled">${_("You are registered for this course")}</span>
+                      <span class="register disabled">${_("You are registered for this course")}</span>
 
-                    %if show_courseware_link:
-                      <strong>${_("View Courseware")}</strong>
+                      %if show_courseware_link:
+                        <strong>${_("View Courseware")}</strong>
+                        </a>
+                      %endif
+                    % elif is_course_full:
+                      <span class="register disabled">
+                        ${_("Course is full")}
+                      </span>
+                    %else:
+                      <a href="#" class="register">
+                        ${_("Register for {course.display_number_with_default}").format(course=course) | h}
                       </a>
+                      <div id="register_error"></div>
                     %endif
-                  % elif is_course_full:
-                    <span class="register disabled">
-                      ${_("Course is full")}
-                    </span>
-                  %else:
-                    <a href="#" class="register">
-                      ${_("Register for {course.display_number_with_default}").format(course=course) | h}
-                    </a>
-                    <div id="register_error"></div>
-                  %endif
+                    </div>
                   </div>
                 <!-- <button class="btn btn-primary">Test</button> -->
                 </div>
