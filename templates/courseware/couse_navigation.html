@@ -55,11 +55,11 @@ def url_class(is_active):
   <div class="course-material">
     <ol class="course-tabs">
       % for tab in get_course_tab_list(course, user):
-        % if loop.index < 3:
           <%
               tab_is_active = (tab.tab_id == active_page) or (tab.tab_id == default_tab)
               tab_image = notification_image_for_tab(tab, user, course)
           %>
+          % if (tab.name == "Course Info") || (tab.name == "Courseware"):
             <li>
                <a href="${tab.link_func(course, reverse) | h}" class="${url_class(tab_is_active)}">
                    ${_(tab.name) | h}
