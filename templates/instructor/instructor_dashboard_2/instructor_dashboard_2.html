@@ -18,7 +18,6 @@
 ## 6. And tests go in lms/djangoapps/instructor/tests/
 
 <%block name="pagetitle">${_("Instructor Dashboard")}</%block>
-<%block name="nav_skip">#instructor-dashboard-content</%block>
 
 <%block name="headextra">
   <%static:css group='style-course-vendor'/>
@@ -92,18 +91,15 @@
         %if studio_url:
         <a class="instructor-info-action" href="${studio_url}">${_("View Course in Studio")}</a>
         %endif
-        %if settings.FEATURES.get('ENABLE_INSTRUCTOR_LEGACY_DASHBOARD'):
-        <a class="instructor-info-action" href="${ old_dashboard_url }"> ${_("Revert to Legacy Dashboard")} </a>
-        %endif
+        <%doc>
+          %if settings.FEATURES.get('ENABLE_INSTRUCTOR_LEGACY_DASHBOARD'):
+          <a class="instructor-info-action" href="${ old_dashboard_url }"> ${_("Revert to Legacy Dashboard")} </a>
+          %endif
+        </%doc>
       </div>
 
     <h1>${_("Instructor Dashboard")}</h1>
 
-      %if analytics_dashboard_message:
-        <div class="wrapper-msg urgency-low is-shown">
-            <p>${analytics_dashboard_message}</p>
-        </div>
-      %endif
 
     ## links which are tied to idash-sections below.
     ## the links are activated and handled in instructor_dashboard.coffee
