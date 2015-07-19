@@ -55,23 +55,25 @@ def url_class(is_active):
   <div class="course-material">
     <ol class="course-tabs">
       % for tab in get_course_tab_list(course, user):
-        <%
-            tab_is_active = (tab.tab_id == active_page) or (tab.tab_id == default_tab)
-            tab_image = notification_image_for_tab(tab, user, course)
-        %>
-          <li>
-             <a href="${tab.link_func(course, reverse) | h}" class="${url_class(tab_is_active)}">
-                 ${_(tab.name) | h}
-                 % if tab_is_active:
-                   <span class="sr">, current location</span>
-                 %endif
-                 % if tab_image:
-                   ## Translators: 'needs attention' is an alternative string for the
-                   ## notification image that indicates the tab "needs attention".
-                   <img src="${tab_image}" alt="${_('needs attention')}" />
-                 %endif
-             </a>
-          </li>
+        % if loop.index < 3:
+          <%
+              tab_is_active = (tab.tab_id == active_page) or (tab.tab_id == default_tab)
+              tab_image = notification_image_for_tab(tab, user, course)
+          %>
+            <li>
+               <a href="${tab.link_func(course, reverse) | h}" class="${url_class(tab_is_active)}">
+                   ${_(tab.name) | h}
+                   % if tab_is_active:
+                     <span class="sr">, current location</span>
+                   %endif
+                   % if tab_image:
+                     ## Translators: 'needs attention' is an alternative string for the
+                     ## notification image that indicates the tab "needs attention".
+                     <img src="${tab_image}" alt="${_('needs attention')}" />
+                   %endif
+               </a>
+            </li>
+          %endif
       % endfor
       <%block name="extratabs" />
     </ol>
