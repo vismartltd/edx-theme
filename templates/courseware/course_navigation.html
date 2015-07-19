@@ -61,7 +61,6 @@ def url_class(is_active):
           %>
           % if (tab.name == "Course Info") || (tab.name == "Courseware"):
             <li>
-              test
                <a href="${tab.link_func(course, reverse) | h}" class="${url_class(tab_is_active)}">
                    ${_(tab.name) | h}
                    % if tab_is_active:
