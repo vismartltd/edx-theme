@@ -51,7 +51,7 @@ def url_class(is_active):
 % endif
 
 % if disable_tabs is UNDEFINED or not disable_tabs:
-<nav class="${active_page} wrapper-course-material">
+<nav class="${active_page if active_page != 'progress' else ''} wrapper-course-material">
   <div class="course-material">
     <ol class="course-tabs">
       % for tab in get_course_tab_list(course, user):
@@ -59,10 +59,10 @@ def url_class(is_active):
               tab_is_active = (tab.tab_id == active_page) or (tab.tab_id == default_tab)
               tab_image = notification_image_for_tab(tab, user, course)
           %>
-          % if tab.name != "Wiki" and tab.name != "Discussion" and tab.name != "Progress":
+          % if tab.name != "Wiki" and tab.name != "Discussion":
             <li>
                <a href="${tab.link_func(course, reverse) | h}" class="${url_class(tab_is_active)}">
-                   ${_(tab.name) | h}
+                   ${u"Отчёт о тестировании" if tab.name == "Progress" else _(tab.name) | h}
                    % if tab_is_active:
                      <span class="sr">, current location</span>
                    %endif

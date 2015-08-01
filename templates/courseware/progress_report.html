@@ -1,0 +1,153 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="/admin_layout.html" />
+<%namespace name='static' file='/static_content.html'/>
+
+
+<%block name="headextra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+<style>
+  #grade-detail-graph .overlay {
+    z-index: 0;
+    background: transparent;
+    padding-left: 0;
+  }
+  .profile-wrapper {
+    margin-bottom: 20px;
+  }
+  .course-info-progress {
+    margin: 20px;
+  }
+  .sections > div {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px;
+  }
+  .sections hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+</style>
+</%block>
+
+<%namespace name="progress_graph" file="/courseware/progress_graph.js"/>
+
+<%block name="pagetitle">${_("{course_number} Progress").format(course_number=course.display_number_with_default) | h}</%block>
+<%block name="nav_skip"></%block>
+
+<%!
+    from django.core.urlresolvers import reverse
+%>
+
+<%!
+from util.date_utils import get_time_display
+from django.conf import settings
+from django.utils.http import urlquote_plus
+%>
+
+<%block name="js_extra">
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.stack.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.symbol.js')}"></script>
+<script>
+  ${progress_graph.body(grade_summary, course.grade_cutoffs, "grade-detail-graph", not course.no_grade, not course.no_grade)}
+</script>
+</%block>
+
+<%include file="/dashboard/_dashboard_prompt_midcourse_reverify.html" />
+
+<%include file="/courseware/course_navigation.html" args="active_page='progress'" />
+
+<div class="container">
+  <div class="profile-wrapper">
+
+    <div class="course-info-progress" id="course-info-progress" aria-label="${_('Course Progress')}">
+      % if staff_access and studio_url is not None:
+        <div class="wrap-instructor-info">
+          <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
+        </div>
+      % endif
+
+      <header>
+        <h1>Отчёт о тестировании</h1>
+        <h2>Результат по разделам</h2>
+      </header>
+
+      %if settings.FEATURES.get("SHOW_PROGRESS_SUCCESS_BUTTON"):
+        <%
+          SUCCESS_BUTTON_URL = settings.PROGRESS_SUCCESS_BUTTON_URL.format(
+            course_id=urlquote_plus(unicode(course.id)),
+            student_id=urlquote_plus(student.id)
+          )
+          nonzero_cutoffs = [cutoff for cutoff in course.grade_cutoffs.values() if cutoff > 0]
+          success_cutoff = min(nonzero_cutoffs) if nonzero_cutoffs else None
+        %>
+        %if success_cutoff and grade_summary['percent'] > success_cutoff:
+          <div id="course-success">
+            <a href="${SUCCESS_BUTTON_URL}">
+              ${settings.PROGRESS_SUCCESS_BUTTON_TEXT_OVERRIDE or _("Download your certificate")}
+            </a>
+          </div>
+        %endif
+      %endif
+
+      %if not course.disable_progress_graph:
+        <div id="grade-detail-graph" style="height:350px;"></div>
+      %endif
+
+      <div class="chapters">
+        %for chapter in courseware_summary:
+        %if not chapter['display_name'] == "hidden":
+        <section>
+          <h2>${ chapter['display_name'] }</h2>
+
+          <div class="sections">
+            %for section in chapter['sections']:
+              <%
+              earned = section['section_total'].earned
+              total = section['section_total'].possible
+              percentageString = "{0:.0%}".format( float(earned)/total) if earned > 0 and total > 0 else ""
+              %>
+
+              %for data in section['problem_data']:
+                <%
+                    score = data['score']
+                    content = data['content']
+                    question = content.get('question')
+                    correct_answer = content.get('correct_answer')
+                    student_answer = content.get('student_answer')
+                    solution = content.get('solution')
+                %>
+                <div>
+                  <h3><a href="${reverse('courseware_section', kwargs=dict(course_id=course.id.to_deprecated_string(), chapter=chapter['url_name'], section=section['url_name']))}">
+                    </a>
+                  </h3>
+                  <div>${ content.get('question') }</div>
+
+                  %if student_answer is not None:
+                    <div>Выбранный ответ: <span style="font-weight: bold">${student_answer}</span></div>
+                    %if correct_answer is not None:
+                      <div>Правильный ответ: <span style="font-weight: bold">${correct_answer}</span></div>
+                    %endif
+                    %if score is not None and (score.possible > 0 or score.earned > 0):
+                    <span ${"style='color: green'" if score.earned > 0 else "style='color: red'" }>
+                    ${_("{earned:.3n} of {total:.3n} possible points").format( earned = float(score.earned), total = float(score.possible) )}
+                    </span>
+                    %endif
+                    %if solution is not None:
+                      <hr />
+                      <p>${solution}</p>
+                    %endif
+                  %endif
+                </div> <!--End section-->
+              %endfor
+            %endfor
+          </div> <!--End sections-->
+        </section> <!--End chapter-->
+        %endif
+        %endfor
+      </div> <!--End chapters-->
+    </div>
+  </div>
+</div>
