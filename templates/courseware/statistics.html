@@ -62,6 +62,12 @@ from django.utils.http import urlquote_plus
         <h1>Статистика и рекомендации по курсам</h1>
       </header>
 
+      %if len(stats) == 0:
+        <div class="course-stats">
+          У вас отсутствуют статистические данные, потому что вы не записаны ни на один курс.
+        </div>
+      %endif
+
       % for course_stats in sorted(stats, key=lambda s: s['course'].display_name_with_default):
         <div class="course-stats">
           <%

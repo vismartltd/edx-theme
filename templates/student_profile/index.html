@@ -1,0 +1,70 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%! import third_party_auth %>
+<%namespace name='static' file='/static_content.html'/>
+
+<%inherit file="../admin_layout.html" />
+
+<%block name="pagetitle">Личный кабинет</%block>
+
+<%block name="js_extra">
+    <script type="text/javascript" src="${static.url('js/vendor/underscore-min.js')}"></script>
+    <script type="text/javascript" src="${static.url('js/vendor/backbone-min.js')}"></script>
+    <%static:js group='student_profile'/>
+</%block>
+
+<%block name="header_extras">
+    <style>
+        #profile-container .form-group label {
+            opacity: 1;
+        }
+        #profile-container .form-group input {
+            color: black;
+        }
+        #profile-container .form-group {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        .profile-subheader {
+            margin-top: 40px;
+        }
+    </style>
+</%block>
+
+<h1>Личный кабинет</h1>
+
+<h2 class="profile-subheader">Персональные данные</h2>
+<div id="profile-container">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="inputLastName" class="control-label col-xs-2">Фамилия</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" id="inputLastName" value="${user.last_name}" readonly />
+            </div>
+        </div>
+        <div class="form-group" style="margin-bottom: 30px;">
+            <label for="inputFirstName" class="control-label col-xs-2">Имя</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" id="inputFirstName" value="${user.first_name}" readonly />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputUsername" class="control-label col-xs-2">Имя пользователя</label>
+            <div class="col-xs-10">
+                <input type="text" class="form-control" id="inputUsername" value="${user.username}" readonly />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputEmail" class="control-label col-xs-2">Email</label>
+            <div class="col-xs-10">
+                <input type="email" class="form-control" id="inputEmail" value="${user.email}" readonly />
+            </div>
+        </div>
+    </form>
+</div>
+
+<h2 class="profile-subheader">Вы записаны на следующие курсы</h2>
+<ul id="enrollment-list">
+    %for course in sorted(enrollments, key=lambda c: c.display_name_with_default):
+    <li class="enrolled-course-item">${course.display_name_with_default | h}</li>
+    %endfor
+</ul>
