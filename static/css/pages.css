@@ -46,7 +46,8 @@ html {
 */
 body {
   background-color: #fafafa;
-  height: 100%;
+/* height: 100%; messes up with long content and is commented out */
+/*  height: 100%; */
   margin: 0;
   padding: 0;
 }
