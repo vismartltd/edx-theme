@@ -193,6 +193,12 @@
       </li>
       %if user.is_authenticated():
       <li class="m-t-30">
+          <a href="${reverse('recommended_courses')}">
+              <div class="title">Рекомендуемые курсы</div>
+          </a>
+          <span class="icon-thumbnail "><i class="fa fa-list"></i></span>
+      </li>
+      <li class="m-t-30">
         <a href="${reverse('student_statistics')}">
           <div class="title">Статистика и рекомендации</div>
         </a>
