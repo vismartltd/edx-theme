@@ -22,7 +22,7 @@ from courseware.courses import course_image_url, get_course_about_section
       <div class="panel-body">
         <div class="pull-bottom bottom-left bottom-right ">
           <span class="label fs-11">#${course.display_number_with_default | h}</span>
-          % for tag in course.tags:
+          % for tag in course.tag_list:
             <span class="label fs-11">${tag}</span>
           % endfor
           <br>
