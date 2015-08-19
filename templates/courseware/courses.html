@@ -2,11 +2,139 @@
   from django.utils.translation import ugettext as _
   from microsite_configuration import microsite
 %>
+<%! from django.core.urlresolvers import reverse %>
+<%! from microsite_configuration.templatetags.microsite import platform_name %>
+<%! import third_party_auth %>
+<%! from third_party_auth import provider, pipeline %>
+
+
 <%inherit file="../admin_layout.html" />
 
 <%namespace name='static' file='../static_content.html'/>
 
 <%block name="pagetitle">${_("Courses")}</%block>
+
+<%block name="js_extra">
+  <script type="text/javascript">
+    $(function() {
+
+      // adding js class for styling with accessibility in mind
+      $('body').addClass('js');
+
+      // show forgot password modal UI if URL contains matching DOM ID
+      if ($.deparam.fragment()['forgot-password-modal'] !== undefined) {
+        $('.pwd-reset').click();
+      }
+
+      // new window/tab opening
+      $('a[rel="external"], a[class="new-vp"]')
+      .click( function() {
+        window.open( $(this).attr('href') );
+        return false;
+      });
+
+      // form field label styling on focus
+      $("form :input").focus(function() {
+        $("label[for='" + this.id + "']").parent().addClass("is-focused");
+      }).blur(function() {
+        $("label").parent().removeClass("is-focused");
+      });
+
+      $("#email").focus();
+    });
+
+    (function() {
+      toggleSubmitButton(true);
+
+      $('#login-form').on('submit', function() {
+        toggleSubmitButton(false);
+      });
+
+      $('#form-login').on('ajax:error', function(event, request, status_string) {
+        toggleSubmitButton(true);
+
+        if (request.status === 403) {
+          $('.message.submission-error').removeClass('is-shown');
+          $('.third-party-signin.message').addClass('is-shown').focus();
+          $('.third-party-signin.message .instructions').html(request.responseText);
+        } else {
+          $('.third-party-signin.message').removeClass('is-shown');
+          $('.message.submission-error').addClass('is-shown').focus();
+          $('.message.submission-error').html(gettext("Your request could not be completed.  Please try again."));
+        }
+      });
+
+      $('#form-login').on('ajax:success', function(event, json, xhr) {
+
+        if(json.success) {
+          var u=decodeURI(window.location.search);
+          var next = u.split("next=")[1];
+          if (next != undefined) {
+            // if next is undefined, decodeURI returns "undefined" causing a bad redirect.
+            next = decodeURIComponent(next);
+          }
+          if (next && !isExternal(next)) {
+            location.href=next;
+          }  else if(json.redirect_url){
+            location.href=json.redirect_url;
+          } else {
+            location.href="${reverse('dashboard')}";
+          }
+        } else if(json.hasOwnProperty('redirect')) {
+          var u=decodeURI(window.location.search);
+          if (!isExternal(json.redirect)) { // a paranoid check.  Our server is the one providing json.redirect
+              location.href=json.redirect+u;
+          } // else we just remain on this page, which is fine since this particular path implies a login failure
+            // that has been generated via packet tampering (json.redirect has been messed with).
+        } else {
+          toggleSubmitButton(true);
+          $('.message.submission-error').addClass('is-shown').focus();
+          $('.message.submission-error .message-copy').html(json.value);
+        }
+      });
+      $("#forgot-password-link").click(function() {
+        $("#forgot-password-modal").show();
+        $("#forgot-password-modal .close-modal").focus();
+      });
+
+    })(this);
+
+    function toggleSubmitButton(enable) {
+      var $submitButton = $('form .form-actions #submit');
+
+      if(enable) {
+        $submitButton.
+          removeClass('is-disabled').
+          attr('aria-disabled', false).
+          removeProp('disabled').
+          html("${_('Log into My {platform_name} Account').format(platform_name=platform_name)} <span class='orn-plus'>+</span> ${_('Access My Courses')}");
+      }
+      else {
+        $submitButton.
+          addClass('is-disabled').
+          prop('disabled', true).
+          text("${_(u'Processing your account information')}");
+      }
+    }
+
+    function thirdPartySignin(event, url) {
+      event.preventDefault();
+      window.location.href = url;
+    }
+
+    (function post_form_if_pipeline_running(pipeline_running) {
+       // If the pipeline is running, the user has already authenticated via a
+       // third-party provider. We want to invoke /login_ajax to loop in the
+       // code that does logging and sets cookies on the request. It is most
+       // consistent to do that by using the same mechanism that is used when
+       // the use does first-party sign-in: POSTing the sign-in form.
+       if (pipeline_running) {
+         $('#form-login').submit();
+       }
+    })(${pipeline_running})
+  </script>
+</%block>
+
 <%
   platform_name = microsite.get_value('platform_name', settings.PLATFORM_NAME)
 
@@ -44,16 +172,23 @@
   <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
     <div class="inner">
       <!-- START BREADCRUMB -->
-      <ul class="breadcrumb">
-        <li>
-          <p><a href="#" class="active">Курсы</a></p>
-        </li>
-        <li>Доступные курсы
-        </li>
-      </ul>
+        <ul class="breadcrumb">
+            <li>
+                <p><a href="#" class="active">Курсы</a></p>
+            </li>
+            <li>Доступные курсы
+            </li>
+        </ul>
       <!-- END BREADCRUMB -->
+        % if third_party_auth.is_enabled():
+            <div class="form-actions form-third-party-auth text-right">
+                % for enabled in provider.Registry.enabled():
+                ## Translators: provider_name is the name of an external, third-party user authentication provider (like Google or LinkedIn).
+                <button type="submit" class="btn btn-primary button-${enabled.NAME} login-${enabled.NAME}" onclick="thirdPartySignin(event, '${pipeline_url[enabled.NAME]}');"><span class="icon fa ${enabled.ICON_CLASS}"></span>Войти</button>
+                % endfor
+            </div>
+        % endif
     </div>
-
   </div>
 </div>
 </%block>
