@@ -1,0 +1,82 @@
+<!DOCTYPE HTML5>
+
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.core.urlresolvers import reverse %>
+
+<%! import third_party_auth %>
+<%! from third_party_auth import provider, pipeline %>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
+		<script type="text/javascript" src="/static/themes/ninenone/css/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="/static/themes/ninenone/css/main.js"></script>
+		<title>
+		</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="main-section orange">
+				<div class="header">
+					<img class="apk-logo" src="/static/themes/ninenone/images/logo-black.png">
+					<a class="left-arrow dark" href="./about">
+						<svg>
+							<polyline points="25,1 2,25 25,49" fill="none" stroke-width="2" stroke="rgb(255, 255, 255)"></polyline>
+						</svg>
+					</a>
+					<div class="menu-burger dark">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div class="person">
+						<!-- <a href="#" class="exit">
+							<img src="exit.png" class="exit-img">
+						</a> -->
+						<img src="/static/themes/ninenone/images/user_img.png" class="person-img show-img">
+						<img src="/static/themes/ninenone/images/user_img.png" class="user-img">
+						<div class="user-panel">
+							<ul>
+								%if not user.is_authenticated():
+								<li>
+			          					<a href="/auth/login/custom/?auth_entry=login&next=%2Fcourses%2F">войти</a>
+								</li>
+								%endif
+								%if user.is_authenticated():
+								<li>
+									<a href="#">Курсы</a>
+								</li>
+								<li>
+									<a href="/statistics">Моя успеваемость</a>
+								</li>	
+							        <!-- <li>
+									<a href="#">Мой учебный план</a>
+								</li>-->
+								<li>
+									<a href="/profile">Личный кабинет</a>
+								</li>
+								<li>
+									<a href="${reverse('logout')}">Выйти</a>
+								</li>
+								%endif
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="preloader-imitation">
+					<span class="title-imitation">Имитация экзамена<br/>в процессе подготовки
+					</span>
+					<div class="loader">
+						<div class="load"></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+				<div class="footer-imitation">
+					<img src="/static/themes/ninenone/images/logo-rosavtotransport-ru.png">
+					<img src="/static/themes/ninenone/images/logo-mintrans-ru.png">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

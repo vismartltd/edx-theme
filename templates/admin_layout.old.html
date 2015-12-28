@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<!--[if IE 7]><html class="ie ie7 lte9 lte8 lte7" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if IE 8]><html class="ie ie8 lte9 lte8" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if IE 9]><html class="ie ie9 lte9" lang="${LANGUAGE_CODE}"><![endif]-->
+<!--[if gt IE 9]><!--><html lang="${LANGUAGE_CODE}"><!--<![endif]-->
+<%
+    # set doc language direction
+    from django.utils.translation import get_language_bidi
+    dir_rtl = 'rtl' if get_language_bidi() else 'ltr'
+%>
+<head dir="${dir_rtl}">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    % if responsive:
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    % endif
+<%! from django.utils.translation import ugettext as _ %>
+<%! from microsite_configuration import microsite %>
+<%! from microsite_configuration import page_title_breadcrumbs %>
+
+<%!
+  from django.core.urlresolvers import reverse
+%>
+
+<%namespace name='static' file='static_content.html'/>
+<%! from django.utils.http import urlquote_plus %>
+
+## Define a couple of helper functions to make life easier when
+## embedding theme conditionals into templates. All inheriting
+## templates have access to these functions, and we can import these
+## into non-inheriting templates via the %namespace tag.
+<%def name="theme_enabled()">
+  <% return settings.FEATURES.get("USE_CUSTOM_THEME", False) %>
+</%def>
+<%def name="is_microsite()">
+  <% return microsite.is_request_in_microsite() %>
+</%def>
+
+<%def name="stanford_theme_enabled()">
+  <%
+    if not theme_enabled():
+      return False
+
+    return getattr(settings, "THEME_NAME", None) == "stanford"
+  %>
+</%def>
+
+## this needs to be here to prevent the title from mysteriously appearing in the body, in one case
+<%def name="pagetitle()" />
+  <%block name="title">
+      <title>
+       ${page_title_breadcrumbs(self.pagetitle())}
+      </title>
+  </%block>
+
+  <script type="text/javascript">
+    /* immediately break out of an iframe if coming from the marketing website */
+    (function(window) {
+      if (window.location !== window.top.location) {
+        window.top.location = window.location;
+      }
+    })(this);
+  </script>
+
+  <script type="text/javascript" src="/jsi18n/"></script>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/static/images/apple-touch-icon-57x57.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="60x60" href="/static/images/apple-touch-icon-60x60.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="72x72" href="/static/images/apple-touch-icon-72x72.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="76x76" href="/static/images/apple-touch-icon-76x76.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="114x114" href="/static/images/apple-touch-icon-114x114.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="120x120" href="/static/images/apple-touch-icon-120x120.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="144x144" href="/static/images/apple-touch-icon-144x144.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="152x152" href="/static/images/apple-touch-icon-152x152.png?v=lkk6Rg9xLB">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/images/apple-touch-icon-180x180.png?v=lkk6Rg9xLB">
+  <link rel="icon" type="image/png" href="/static/images/favicon-32x32.png?v=lkk6Rg9xLB" sizes="32x32">
+  <link rel="icon" type="image/png" href="/static/images/favicon-96x96.png?v=lkk6Rg9xLB" sizes="96x96">
+  <link rel="icon" type="image/png" href="/static/images/favicon-16x16.png?v=lkk6Rg9xLB" sizes="16x16">
+  <link rel="manifest" href="/static/images/manifest.json?v=lkk6Rg9xLB">
+  <link rel="shortcut icon" href="/static/images/favicon.ico?v=lkk6Rg9xLB">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-TileImage" content="/static/images/mstile-144x144.png?v=lkk6Rg9xLB">
+  <meta name="msapplication-config" content="/static/images/browserconfig.xml?v=lkk6Rg9xLB">
+  <meta name="theme-color" content="#ffffff">
+
+
+  % if disable_courseware_js:
+    <%static:js group='base_vendor'/>
+  % else:
+    <%static:js group='main_vendor'/>
+  % endif
+
+  <script>
+    window.baseUrl = "${settings.STATIC_URL}";
+    (function (require) {
+    % if settings.DEBUG is True:
+        ## Using what amounts to a random number in the Development environment for cache-busting
+        var urlArgs = "bust=" + (new Date()).getTime();
+    % else:
+        var urlArgs = "v=${settings.EDX_PLATFORM_REVISION}";
+    % endif
+      require.config({
+          baseUrl: baseUrl,
+          urlArgs: urlArgs
+      });
+    }).call(this, require || RequireJS.require);
+  </script>
+  <script type="text/javascript" src="${static.url("require-config-lms.js")}"></script>
+
+  <%block name="headextra"/>
+
+<%
+  if theme_enabled() and not is_microsite():
+    header_extra_file = 'theme-head-extra.html'
+    header_file = 'theme-header.html'
+    google_analytics_file = 'theme-google-analytics.html'
+
+    style_overrides_file = None
+
+  else:
+    header_extra_file = None
+
+    if settings.FEATURES['IS_EDX_DOMAIN'] and not is_microsite():
+        header_file = microsite.get_template_path('navigation-edx.html')
+    else:
+        header_file = microsite.get_template_path('navigation.html')
+
+    google_analytics_file = microsite.get_template_path('google_analytics.html')
+
+    style_overrides_file = microsite.get_value('css_overrides_file')
+%>
+
+  % if header_extra_file:
+    <%include file="${header_extra_file}" />
+  % endif
+
+  <!--[if lt IE 9]>
+    <script src="${static.url('js/html5shiv.js')}"></script>
+  <![endif]-->
+
+  <%include file="widgets/optimizely.html" />
+  <%include file="widgets/segment-io.html" />
+
+  <meta name="path_prefix" content="${EDX_ROOT_URL}">
+  <meta name="google-site-verification" content="_mipQ4AtZQDNmbtOkwehQDOgCxUUV2fb_C0b6wbiRHY" />
+
+  <%include file="${google_analytics_file}" />
+
+% if style_overrides_file:
+  <!-- <link rel="stylesheet" type="text/css" href="${static.url(style_overrides_file)}" /> -->
+% endif
+
+</head>
+
+<body class="fixed-header menu-behind ${dir_rtl} <%block name='bodyclass'/> lang_${LANGUAGE_CODE}">
+
+<%include file="mathjax_accessible.html" />
+
+
+  <%include file="${header_file}" />
+
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar" data-pages="sidebar">
+  <div id="appMenu" class="sidebar-overlay-slide from-top">
+  </div>
+  <!-- BEGIN SIDEBAR HEADER -->
+  <div class="sidebar-header">
+    <img src="/static/themes/ninenone/assets/img/logo.png" alt="logo" class="brand" data-src="/static/themes/ninenone/assets/img/logo.png" data-src-retina="/static/themes/ninenone/assets/img/logo.png" width="93" height="25">
+    <div class="sidebar-header-controls">
+      <button data-pages-toggle="#appMenu" class="btn btn-xs sidebar-slide-toggle btn-link m-l-20" type="button"><i class="fa fa-angle-down fs-16"></i>
+      </button>
+      <button data-toggle-pin="sidebar" class="btn btn-link visible-lg-inline" type="button"><i class="fa fs-12"></i>
+      </button>
+    </div>
+  </div>
+  <!-- END SIDEBAR HEADER -->
+  <!-- BEGIN SIDEBAR MENU -->
+  <div class="sidebar-menu">
+    <ul class="menu-items">
+      %if user.is_authenticated():
+      <li class="m-t-30">
+        <a href="${reverse('dashboard')}">
+          <div class="title">Активные курсы</div>
+        </a>
+        <span class="icon-thumbnail "><i class="fa fa-home"></i></span>
+      </li>
+      % endif
+      <li {% class="m-t-30" if not user.is_authenticated() %}>
+        <a href="${marketing_link('COURSES')}">
+          <div class="title">Все курсы</div>
+        </a>
+        <span class="icon-thumbnail "><i class="fa fa-list"></i></span>
+      </li>
+      %if user.is_authenticated():
+      <li class="m-t-30">
+          <a href="${reverse('recommended_courses')}">
+              <div class="title">Рекомендуемые курсы</div>
+          </a>
+          <span class="icon-thumbnail "><i class="fa fa-list"></i></span>
+      </li>
+      <li class="m-t-30">
+        <a href="${reverse('student_statistics')}">
+          <div class="title">Статистика и рекомендации</div>
+        </a>
+        <span class="icon-thumbnail "><i class="fa fa-bar-chart"></i></span>
+      </li>
+      % endif
+
+      <!-- <li class="">
+        <a href="javascript:;">
+          <span class="title">Page 3</span>
+          <span class=" arrow"></span>
+        </a>
+        <span class="icon-thumbnail"><i class="pg-grid"></i>
+                </span>
+        <ul class="sub-menu">
+          <li class="">
+            <a href="#">Sub Page 1</a>
+            <span class="icon-thumbnail">sp</span>
+          </li>
+          <li class="">
+            <a href="#">Sub Page 2</a>
+            <span class="icon-thumbnail">sp</span>
+          </li>
+          <li class="">
+            <a href="#">Sub Page 3</a>
+            <span class="icon-thumbnail">sp</span>
+          </li>
+        </ul>
+      </li> -->
+      <!-- <li class="">
+        <a href="${marketing_link('CONTACT')}">
+          <span class="title">${_("Contact")}</span>
+        </a>
+        <span class="icon-thumbnail ">
+          <i class="fa fa-pencil"></i>
+        </span>
+      </li> -->
+    </ul>
+    <div class="clearfix"></div>
+  </div>-->
+  <!-- END SIDEBAR MENU -->
+</div>
+<!-- END SIDEBAR -->
+<!-- START PAGE-CONTAINER -->
+<div class="page-container">
+  <!-- START PAGE HEADER WRAPPER -->
+  <!-- START HEADER -->
+  <div class="header ">
+    <!-- START MOBILE CONTROLS -->
+    <!-- LEFT SIDE -->
+    <div class="pull-left full-height visible-sm visible-xs">
+      <!-- START ACTION BAR -->
+      <div class="sm-action-bar">
+        <a href="#" class="btn-link toggle-sidebar" data-toggle="sidebar">
+          <span class="icon-set menu-hambuger"></span>
+        </a>
+      </div>
+      <!-- END ACTION BAR -->
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="pull-right full-height visible-sm visible-xs">
+      <!-- START ACTION BAR -->
+      <div class="sm-action-bar">
+        <a href="#" class="btn-link" data-toggle="quickview" data-toggle-element="#quickview">
+          <span class="icon-set menu-hambuger-plus"></span>
+        </a>
+      </div>
+      <!-- END ACTION BAR -->
+    </div>
+    <!-- END MOBILE CONTROLS -->
+    <div class=" pull-left sm-table">
+      <div class="header-inner">
+        <div class="brand inline">
+          <a href="/">
+            <img src="/static/themes/ninenone/assets/img/logo.png" alt="logo" data-src="/static/themes/ninenone/assets/img/logo.png" data-src-retina="/static/themes/ninenone/assets/img/logo.png" width="93" height="25">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class=" pull-right">
+      <!-- <div class="header-inner">
+        <a href="#" class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs" data-toggle="quickview" data-toggle-element="#quickview"></a>
+      </div> -->
+    </div>
+    <div class=" pull-right">
+      <!-- START User Info-->
+      <div class="visible-lg visible-md m-t-10">
+        %if user.is_authenticated():
+        <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+            <span class="semi-bold">${ user.profile.name | h }</span>
+
+        </div>
+        <div class="dropdown pull-right">
+          <button aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" type="button" class="profile-dropdown-toggle">
+            <span class="thumbnail-wrapper d32 inline m-t-5">
+            <i class="fa fa-user fa-2x"></i>
+            </span>
+          </button>
+          <ul role="menu" class="dropdown-menu profile-dropdown">
+            <!-- <li><a href="#"><i class="pg-settings_small"></i> Settings</a>
+            </li>
+            <li><a href="#"><i class="pg-outdent"></i> Feedback</a>
+            </li>
+            <li><a href="#"><i class="pg-signals"></i> Help</a>
+            </li> -->
+            <li class="bg-master-lighter">
+              <a href="${reverse('profile_index')}" class="clearfix" role="menuitem">
+                <span class="pull-left">Личный кабинет</span>
+                <span class="pull-right"><i class="fa-user"></i></span>
+              </a>
+            </li>
+            <li class="bg-master-lighter">
+              <a href="${reverse('logout')}" class="clearfix" role="menuitem">
+                <span class="pull-left">${_("Sign out")}</span>
+                <span class="pull-right"><i class="pg-power"></i></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        % endif
+      </div>
+      <!-- END User Info-->
+    </div>
+  </div>
+  <!-- END HEADER -->
+  <!-- END PAGE HEADER WRAPPER -->
+        <!-- START PAGE CONTENT WRAPPER -->
+  <div class="page-content-wrapper">
+    <!-- START PAGE CONTENT -->
+    <div class="content <%block name='contentclass'/>">
+    <!-- START JUMBOTRON -->
+      <%block name="jumbotron">
+
+      </%block>
+      <div class="container-fluid container-fixed-lg  <%block name='containerclass'/>">
+          ${self.body()}
+      </div>
+
+      <!-- END CONTAINER FLUID -->
+    </div>
+    <!-- END PAGE CONTENT -->
+    <!-- START FOOTER -->
+    <!-- <div class="container-fluid container-fixed-lg footer">
+      <div class="copyright sm-text-center">
+        <p class="small no-margin pull-left sm-pull-reset">
+          <span class="hint-text">Copyright © 2015</span>
+          <span class="font-montserrat">NINE' ONE</span>.
+          <span class="hint-text">All rights reserved.</span>
+        </p>
+        <div class="clearfix"></div>
+      </div>
+    </div> -->
+    <!-- END FOOTER -->
+  </div>
+  <!-- END PAGE CONTENT WRAPPER -->
+      </div>
+<!-- END PAGE CONTAINER -->
+<!-- START OVERLAY -->
+<div class="overlay" style="display: none" data-pages="search">
+  <!-- BEGIN Overlay Content !-->
+  <div class="overlay-content has-results m-t-20">
+    <!-- BEGIN Overlay Header !-->
+    <div class="container-fluid">
+      <!-- BEGIN Overlay Close !-->
+      <a href="#" class="close-icon-light overlay-close text-black fs-16">
+        <i class="pg-close"></i>
+      </a>
+      <!-- END Overlay Close !-->
+    </div>
+    <!-- END Overlay Header !-->
+    <div class="container-fluid">
+      <!-- BEGIN Overlay Controls !-->
+      <input id="overlay-search" class="no-border overlay-search bg-transparent" placeholder="Search..." autocomplete="off" spellcheck="false">
+      <br>
+      <div class="inline-block">
+        <div class="checkbox right">
+          <input id="checkboxn" type="checkbox" value="1" checked="checked">
+          <label for="checkboxn"><i class="fa fa-search"></i> Search within page</label>
+        </div>
+      </div>
+      <div class="inline-block m-l-10">
+        <p class="fs-13">Press enter to search</p>
+      </div>
+      <!-- END Overlay Controls !-->
+    </div>
+    <!-- BEGIN Overlay Search Results, This part is for demo purpose, you can add anything you like !-->
+    <div class="container-fluid">
+      <span>
+            <strong>suggestions :</strong>
+        </span>
+      <span id="overlay-suggestions"></span>
+      <br>
+      <div class="search-results m-t-40">
+        <p class="bold">Pages Search Results</p>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular bg-success text-white inline m-t-10">
+                <div>
+                  <img width="50" height="50" src="" data-src="" data-src-retina="" alt="">
+                </div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5"><span class="semi-bold result-name">ice cream</span> on pages</h5>
+                <p class="hint-text">via john smith</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular bg-success text-white inline m-t-10">
+                <div>T</div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5"><span class="semi-bold result-name">ice cream</span> related topics</h5>
+                <p class="hint-text">via pages</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular bg-success text-white inline m-t-10">
+                <div><i class="fa fa-headphones large-text "></i>
+                </div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5"><span class="semi-bold result-name">ice cream</span> music</h5>
+                <p class="hint-text">via pagesmix</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+          </div>
+          <div class="col-md-6">
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular bg-info text-white inline m-t-10">
+                <div><i class="fa fa-facebook large-text "></i>
+                </div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5"><span class="semi-bold result-name">ice cream</span> on facebook</h5>
+                <p class="hint-text">via facebook</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular bg-complete text-white inline m-t-10">
+                <div><i class="fa fa-twitter large-text "></i>
+                </div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5">Tweats on<span class="semi-bold result-name"> ice cream</span></h5>
+                <p class="hint-text">via twitter</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+            <!-- BEGIN Search Result Item !-->
+            <div class="">
+              <!-- BEGIN Search Result Item Thumbnail !-->
+              <div class="thumbnail-wrapper d48 circular text-white bg-danger inline m-t-10">
+                <div><i class="fa fa-google-plus large-text "></i>
+                </div>
+              </div>
+              <!-- END Search Result Item Thumbnail !-->
+              <div class="p-l-10 inline p-t-5">
+                <h5 class="m-b-5">Circles on<span class="semi-bold result-name"> ice cream</span></h5>
+                <p class="hint-text">via google plus</p>
+              </div>
+            </div>
+            <!-- END Search Result Item !-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Overlay Search Results !-->
+  </div>
+  <!-- END Overlay Content !-->
+</div>
+
+<%block name="bodyextra"/>
+
+<%block name="footer">
+</%block>
+
+
+% if not disable_courseware_js:
+<%static:js group='application'/>
+<%static:js group='module-js'/>
+% endif
+
+  <%block name="js_extra"/>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+  (function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+      try {
+        w.yaCounter31742486 = new Ya.Metrika({
+          id:31742486,
+          clickmap:true,
+          trackLinks:true,
+          accurateTrackBounce:true
+        });
+      } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+      d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+  })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/31742486" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+</body>
+</html>
+
+<%def name="login_query()">${
+  u"?course_id={0}&enrollment_action={1}{email_opt_in}".format(
+    urlquote_plus(course_id),
+    urlquote_plus(enrollment_action),
+    email_opt_in=(
+      u"&email_opt_in=" + urlquote_plus(email_opt_in)
+      if email_opt_in else ""
+    )
+  ) if course_id and enrollment_action else ""
+}</%def>

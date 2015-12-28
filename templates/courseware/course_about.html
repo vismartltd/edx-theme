@@ -1,329 +1,101 @@
-<%namespace name='static' file='../static_content.html'/>
-<%!
-from microsite_configuration import microsite
-from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
-from courseware.courses import course_image_url, get_course_about_section
-from django.conf import settings
-from edxmako.shortcuts import marketing_link
-%>
+<!DOCTYPE HTML5>
 
+<%! from django.utils.translation import ugettext as _ %>
+<%! from django.core.urlresolvers import reverse %>
+<%! from microsite_configuration.templatetags.microsite import platform_name %>  
 <%! import third_party_auth %>
 <%! from third_party_auth import provider, pipeline %>
-<%inherit file="../admin_layout.html" />
-
-
-<%block name="js_extra">
-
-  <script type="text/javascript">
-  function thirdPartySignin(event, url) {
-    event.preventDefault();
-    window.location.href = url;
-  }
-
-  (function() {
-    $(".register").click(function(event) {
-      %if user.is_authenticated():
-        $("#class_enroll_form").submit();
-      %else:
-        thirdPartySignin(event, '${pipeline_url[provider.Registry.enabled()[0].NAME]}');
-      %endif
-      event.preventDefault();
-    });
-
-    ## making the conditional around this entire JS block for sanity
-    %if settings.FEATURES.get('RESTRICT_ENROLL_BY_REG_METHOD') and course.enrollment_domain:
-      <%
-        perms_error = _('The currently logged-in user account does not have permission to enroll in this course. '
-                        'You may need to {start_logout_tag}log out{end_tag} then try the register button again. '
-                        'Please visit the {start_help_tag}help page{end_tag} for a possible solution.').format(
-                          start_help_tag="<a href='{url}'>".format(url=marketing_link('FAQ')), end_tag='</a>',
-                          start_logout_tag="<a href='{url}'>".format(url=reverse('logout'))
-                          )
-      %>
-    $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
-      if(xhr.status == 200) {
-        location.href = "${reverse('dashboard')}";
-      } else if (xhr.status == 403) {
-        location.href = "${reverse('course-specific-register', args=[course.id.to_deprecated_string()])}?course_id=${course.id | u}&enrollment_action=enroll";
-      } else if (xhr.status == 400) { //This means the user did not have permission
-        $('#register_error').html("${perms_error}").css("display", "block");
-      } else {
-        $('#register_error').html(
-            (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
-        ).css("display", "block");
-      }
-    });
-
-    %else:
-
-    $('#class_enroll_form').on('ajax:complete', function(event, xhr) {
-      if(xhr.status == 200) {
-        if (xhr.responseText == "") {
-          location.href = "${reverse('dashboard')}";
-        }
-        else {
-          location.href = xhr.responseText;
-        }
-      } else if (xhr.status == 403) {
-          location.href = "${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll";
-      } else {
-        $('#register_error').html(
-            (xhr.responseText ? xhr.responseText : "${_("An error occurred. Please try again later.")}")
-        ).css("display", "block");
-      }
-    });
-
-    %endif
-
-  })(this)
-  </script>
-
-  <script src="${static.url('js/course_info.js')}"></script>
-</%block>
-<%block name="jumbotron">
-<div class="jumbotron " data-pages="parallax">
-  <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
-    <div class="inner">
-      <!-- START BREADCRUMB -->
-      <ul class="breadcrumb">
-        <li>
-          <p><a href="/courses" class="active">Курсы</a></p>
-        </li>
-        <li>Запись на курс
-        </li>
-      </ul>
-      <!-- END BREADCRUMB -->
-    </div>
-
-  </div>
-</div>
-</%block>
-<%block name="pagetitle">${get_course_about_section(course, "title")}</%block>
-<div class="inner course-about-enroll">
-
-                <div class="container-md-height m-b-20">
-                  <div class="row row-md-height">
-                    <!-- START PANEL -->
-                    <div class="panel-body inline course-view-cover">
-                      <img alt="Course cover" src="${course_image_url(course)}" class="image-responsive-height demo-mw-500">
-                    </div>
-                    <!-- END PANEL -->
-                    <!-- START PANEL -->
-                    <div class="panel panel-transparent course-view-info">
-                      <div class="panel-heading">
-                        <div class="panel-title" style="padding: 0">
-                          ${get_course_about_section(course, "university")}
-                          <br/>
-                          ${course.display_number_with_default | h}
-                        </div>
-                      </div>
-                      <div class="panel-body">
-                        <h3>${get_course_about_section(course, "title")}</h3>
-                        %if len(get_course_about_section(course, "overview")) > 0:
-                          <p>${get_course_about_section(course, "overview")}</p>
-                        %else:
-                          <p>Описание курса отсутствует</p>
-                        %endif
-                        <br>
-                        <div>
-                          <!-- <div class="profile-img-wrapper m-t-5 inline">
-                            <img width="35" height="35" src="assets/img/profiles/avatar_small.jpg" alt="Avatar" data-src="assets/img/profiles/avatar_small.jpg" data-src-retina="assets/img/profiles/avatar_small2x.jpg">
-                            <div class="chat-status available">
-                            </div>
-                          </div>
-                          <div class="inline m-l-10">
-                            <p class="small hint-text">VIA senior product manage
-                              <br> for fonts and typography at REVOX</p>
-                          </div> -->
-                        </div>
-                      </div>
-                    </div>
-                    <!-- END PANEL -->
-                    <div class="main-cta">
-                    %if user.is_authenticated() and registered:
-                      %if show_courseware_link:
-
-                      %endif
-
-                      <span class="register disabled">${_("You are registered for this course")}</span>
-
-                      %if show_courseware_link:
-                        <a class="btn btn-primary" href="${course_target}">
-                          ${_("View Courseware")}
-                        </a>
-                      %endif
-                    % elif is_course_full:
-                      <span class="register disabled">
-                        ${_("Course is full")}
-                      </span>
-                    %else:
-                      <a href="#" class="btn btn-primary register">
-                        Записаться на курс
-                      </a>
-                      <div id="register_error"></div>
-                    %endif
-                    </div>
-                  </div>
-                </div>
-              </div>
-              %if active_reg_button or is_shib_course:
-                <div style="display: none;">
-                  <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
-                    <fieldset class="enroll_fieldset">
-                      <input name="course_id" type="hidden" value="${course.id | h}">
-                      <input name="enrollment_action" type="hidden" value="enroll">
-                    </fieldset>
-                    <div class="submit">
-                      <input name="submit" type="submit" value="enroll">
-                    </div>
-                  </form>
-                </div>
-              %endif
-<!-- <section class="course-info">
-  <header class="course-profile">
-    <div class="intro-inner-wrapper">
-      <div class="table">
-      <section class="intro">
-        <hgroup>
-          <h1>
-            ${get_course_about_section(course, "title")}
-            % if not self.theme_enabled():
-              <a href="#">${get_course_about_section(course, "university")}</a>
-            % endif
-          </h1>
-        </hgroup>
-
-
-      </section>
-      % if get_course_about_section(course, "video"):
-      <a href="#video-modal" class="media" rel="leanModal">
-        <div class="hero">
-          <img src="${course_image_url(course)}" alt="" />
-          <div class="play-intro"></div>
-        </div>
-      </a>
-      %else:
-      <div class="media">
-        <div class="hero">
-          <img src="${course_image_url(course)}" alt="" />
-        </div>
-      </div>
-      % endif
-    </div>
-      </div>
-  </header>
-
-  <section class="container">
-    <section class="details">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info studio-view">
-          <a class="instructor-info-action" href="${studio_url}">${_("View About Page in studio")}</a>
-        </div>
-      % endif
-
-      <nav>
-        <a href="#" class="active">${_("Overview")}</a>
-      ##  <a href="#">${_("FAQ")}</a>
-      ##  <a href="#">${_("Requirements")}</a>
-      ##  <a href="#">${_("Text-book")}</a>
-      ##  <a href="#">${_("Syllabus")}</a>
-      ##  <a href="#">${_("Reviews")}</a>
-      </nav>
-
-      <div class="inner-wrapper">
-        ${get_course_about_section(course, "overview")}
-      </div>
-    </section>
-
-    <section class="course-sidebar">
-      <section class="course-summary">
-
-        <ol class="important-dates">
-          <li class="important-dates-item"><i class="icon fa fa-info-sign"></i><p class="important-dates-item-title">${_("Course Number")}</p><span class="important-dates-item-text course-number">${course.display_number_with_default | h}</span></li>
-          % if not course.start_date_is_still_default:
-            <li class="important-dates-item"><i class="icon fa fa-calendar"></i><p class="important-dates-item-title">${_("Classes Start")}</p><span class="important-dates-item-text start-date">${course.start_datetime_text()}</span></li>
-          % endif
-            ## We plan to ditch end_date (which is not stored in course metadata),
-            ## but for backwards compatibility, show about/end_date blob if it exists.
-            % if get_course_about_section(course, "end_date") or course.end:
-            <li class="important-dates-item">
-                <i class="icon fa fa-calendar"></i>
-                <p class="important-dates-item-title">${_("Classes End")}</p>
-                <span class="important-dates-item-text final-date">
-                    % if get_course_about_section(course, "end_date"):
-                        ${get_course_about_section(course, "end_date")}
-                    % else:
-                        ${course.end_datetime_text()}
-                    % endif
-                </span>
-            </li>
-            % endif
-
-          % if get_course_about_section(course, "effort"):
-            <li class="important-dates-item"><i class="icon fa fa-pencil"></i><p class="important-dates-item-title">${_("Estimated Effort")}</p><span class="important-dates-item-text effort">${get_course_about_section(course, "effort")}</span></li>
-          % endif
-
-          ##<li class="important-dates-item"><i class="icon fa fa-clock-o"></i><p class="important-dates-item-title">${_('Course Length')}</p><span class="important-dates-item-text course-length">${_('{number} weeks').format(number=15)}</span></li>
-
-          %if is_shopping_cart_enabled and registration_price:
-            <li class="important-dates-item">
-              <i class="icon fa fa-money"></i>
-              <p class="important-dates-item-title">${_("Price")}</p>
-              <span class="important-dates-item-text">${_("{currency_symbol}{cost}").format(currency_symbol=currency_symbol, cost=registration_price)}</span>
-            </li>
-          % endif
-
-          % if pre_requisite_courses:
-          <li class="prerequisite-course important-dates-item">
-            <i class="icon fa fa-list-ul"></i>
-            <p class="important-dates-item-title">${_("Prerequisites")}</p>
-            ## Multiple pre-requisite courses are not supported on frontend that's why we are pulling first element
-            <span class="important-dates-item-text pre-requisite">${pre_requisite_courses[0]}</span>
-            <p class="tip">${_("You must successfully complete {course} before you begin this course").format(course=pre_requisite_courses[0])}.</p>
-          </li>
-          % endif
-          % if get_course_about_section(course, "prerequisites"):
-            <li class="important-dates-item"><i class="icon fa fa-book"></i><p class="important-dates-item-title">${_("Requirements")}</p><span class="important-dates-item-text prerequisites">${get_course_about_section(course, "prerequisites")}</span></li>
-          % endif
-        </ol>
-      </section>
-
-
-      ## For now, ocw links are the only thing that goes in additional resources
-      % if get_course_about_section(course, "ocw_links"):
-      <section class="additional-resources">
-        <header>
-          <h1>${_("Additional Resources")}</h1>
-        </header>
-
-        <section>
-          ## "MITOpenCourseware" should *not* be translated
-          <h2 class="opencourseware">MITOpenCourseware</h2>
-             ${get_course_about_section(course, "ocw_links")}
-        </section>
-      </section>
-      %endif
-    </section>
-
-  </section>
-</section>
-
-## Need to put this hidden form on the page so that the registration button works.
-## Since it's no harm to display a hidden form, we display it with the most permissive conditional
-## which is when the student is not registered.
-%if active_reg_button or is_shib_course:
-  <div style="display: none;">
-    <form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
-      <fieldset class="enroll_fieldset">
-        <input name="course_id" type="hidden" value="${course.id | h}">
-        <input name="enrollment_action" type="hidden" value="enroll">
-      </fieldset>
-      <div class="submit">
-        <input name="submit" type="submit" value="enroll">
-      </div>
-    </form>
-  </div>
-%endif
-
-<%include file="../video_modal.html" /> -->
+<%!
+from courseware.courses import course_image_url, get_course_about_section
+from microsite_configuration import microsite 
+%>
+<%page args="course" /> 
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
+		<script type="text/javascript" src="/static/themes/ninenone/js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="/static/themes/ninenone/js/main.js"></script>
+		<title>
+		</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="main-section exam" style="background-image: url('${course_image_url(course)}');" >
+				<div class="skin"></div>
+				<div class="modal hidden">
+					<div class="modal-center">
+						<span class="modal-center-ask">Вы еще не завершили обучение. Точно хотите попробовать пройти тест?</span>
+						<a class="modal-test" href="test">Да</a>
+						<a class="modal-methods" href="/">Закончить обучение</a>
+					</div>
+					<div class="burger-close">
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div class="header">
+					<img class="apk-logo" src="/static/themes/ninenone/images/apkdopog.png">
+					<a class="left-arrow" href="/">
+						<svg>
+							<polyline points="25,1 2,25 25,49" fill="none" stroke-width="2" stroke="rgb(255, 255, 255)"></polyline>
+						</svg>
+					</a>
+					<div class="menu-burger">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div class="person">
+						<!-- <a href="#" class="exit">
+							<img src="exit.png" class="exit-img">
+						</a> -->
+						<img src="/static/themes/ninenone/images/user_img.png" class="person-img show-img">
+						<img src="/static/themes/ninenone/images/user_img.png" class="user-img">
+						<div class="user-panel">
+							<ul>
+								%if not user.is_authenticated():
+								<li>
+			          					<a href="/auth/login/custom/?auth_entry=login&next=%2Fcourses%2F">войти</a>
+								</li>
+								%endif
+								%if user.is_authenticated():
+								<li>
+									<a href="#">Курсы</a>
+								</li>
+								<li>
+									<a href="/statistics">Моя успеваемость</a>
+								</li>	
+							        <!-- <li>
+									<a href="#">Мой учебный план</a>
+								</li>-->
+								<li>
+									<a href="/profile">Личный кабинет</a>
+								</li>
+								<li>
+									<a href="${reverse('logout')}">Выйти</a>
+								</li>
+								%endif
+							</ul>
+						</div>
+					</div>
+				</div>
+				<a class="main-course" href="">
+					<span class="main-course-title">${get_course_about_section(course, "title")}</span>
+					<span class="main-course-logo">Б</span>
+					<span class="rest-course-desc">
+${get_course_about_section(course, "short_description")}
+<!--${course_image_url(course)}-->
+                                        </span>
+				</a>
+				<a class="rest-course" href="info">
+					<span class="rest-course-title">Методические<br/>материалы</span>
+					<span class="rest-course-desc">Материалы для обучения по всему курсу.<br/>Разделены на темы и дополнены вопросами самоконтроля</span>
+				</a>
+				<a class="rest-course q-test" href="test">
+					<span class="rest-course-title right">Имитация теста</span>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>

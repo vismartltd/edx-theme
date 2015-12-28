@@ -1,0 +1,129 @@
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="/admin_layout.html" />
+<%namespace name='static' file='/static_content.html'/>
+
+
+<%block name="headextra">
+<%static:css group='style-course-vendor'/>
+<%static:css group='style-course'/>
+<style>
+  .grade-detail-graph {
+    height: 350px;
+  }
+  .grade-detail-graph .overlay {
+    z-index: 0;
+    background: transparent;
+    padding-left: 0;
+  }
+  .profile-wrapper {
+    margin-bottom: 20px;
+  }
+  .course-info-progress {
+    margin: 20px;
+  }
+  .course-stats {
+    margin-bottom: 30px;
+  }
+</style>
+</%block>
+
+<%namespace name="progress_graph" file="/courseware/progress_graph.js"/>
+
+<%block name="pagetitle">Статистика и рекомендации по курсам</%block>
+
+<%block name="nav_skip"><a class="instructor-info-action studio-view" 
+href="/statistics/pdf/"> версия для печати</a></%block> 
+
+<%!
+    from django.core.urlresolvers import reverse
+%>
+
+<%!
+from util.date_utils import get_time_display
+from django.conf import settings
+from django.utils.http import urlquote_plus
+%>
+
+<%block name="js_extra">
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.stack.js')}"></script>
+<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.symbol.js')}"></script>
+</%block>
+
+<div class="container">
+  <div class="profile-wrapper">
+
+    <div class="course-info-progress" id="course-info-progress" aria-label="Статистика и рекомендации по курсам">
+      % if staff_access and studio_url is not None:
+        <div class="wrap-instructor-info">
+          <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
+        </div>
+      % endif
+
+      <header>
+        <h1>Статистика и рекомендации по курсам</h1>
+      </header>
+
+      %if len(stats) == 0:
+        <div class="course-stats">
+          У вас отсутствуют статистические данные, потому что вы не записаны ни на один курс.
+        </div>
+      %endif
+
+      % for course_stats in sorted(stats, key=lambda s: s['course'].display_name_with_default):
+        <div class="course-stats">
+          <%
+            course = course_stats['course']
+            grade_summary = course_stats['grade_summary']
+            quoted_course_id = urlquote_plus(unicode(course.id))
+          %>
+          <h2><a href="${reverse('course_root', args=[course.id.to_deprecated_string()])}">
+            ${course.display_name_with_default | h}</a>
+          </h2>
+          <script>
+            ${progress_graph.body(grade_summary, course.grade_cutoffs, "grade-detail-graph-" + quoted_course_id, not course.no_grade, not course.no_grade)}
+          </script>
+
+          %if settings.FEATURES.get("SHOW_PROGRESS_SUCCESS_BUTTON"):
+            <%
+              SUCCESS_BUTTON_URL = settings.PROGRESS_SUCCESS_BUTTON_URL.format(
+                course_id=urlquote_plus(unicode(course.id)),
+                student_id=urlquote_plus(student.id)
+              )
+              nonzero_cutoffs = [cutoff for cutoff in course.grade_cutoffs.values() if cutoff > 0]
+              success_cutoff = min(nonzero_cutoffs) if nonzero_cutoffs else None
+            %>
+            %if success_cutoff and grade_summary['percent'] > success_cutoff:
+              <div id="course-success">
+                <a href="${SUCCESS_BUTTON_URL}">
+                  ${settings.PROGRESS_SUCCESS_BUTTON_TEXT_OVERRIDE or _("Download your certificate")}
+                </a>
+              </div>
+            %endif
+          %endif
+
+          %if not course.disable_progress_graph:
+            <div id="grade-detail-graph-${quoted_course_id}" class="grade-detail-graph"></div>
+          %endif
+
+          %if len(grade_summary['section_breakdown']) > 1:
+          <div class="recommendations">
+            <h3> Рекомендуемые к изучению темы: </h3>
+            <ol>
+              <%
+              nonzero_cutoffs = [cutoff for cutoff in course.grade_cutoffs.values() if cutoff > 0]
+              success_cutoff = min(nonzero_cutoffs) if nonzero_cutoffs else None
+              filtered_grade_sections = [section for section in grade_summary['section_breakdown']
+                                         if section['percent'] <= success_cutoff]
+              %>
+              %for section in sorted(filtered_grade_sections, key=lambda s: s['percent']):
+              <li>${section['category']}</li>
+              %endfor
+            </ol>
+          </div>
+          %endif
+        </div>
+      %endfor
+    </div>
+  </div>
+</div>

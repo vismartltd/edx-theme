@@ -1,0 +1,9 @@
+$(window).load(function() {
+	var maxHeight = 0;
+	for (var i = 0; i < $('.driver-course').length; i++) {
+		if ($('.driver-course').eq(i).height() > maxHeight) {
+			maxHeight = $('.driver-course').eq(i).height();
+		}
+	}
+	$('.driver-course').height(maxHeight);
+});

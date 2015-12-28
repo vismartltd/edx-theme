@@ -1,0 +1,95 @@
+<!DOCTYPE HTML5>
+	<head>
+
+<%namespace name='static' file='../static_content.html'/>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
+
+		<script type="text/javascript" src="jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="main.js"></script>
+<%block name="title"><title>
+</title></%block>
+		<title>
+		</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div class="main-section">
+				<div class="skin"></div>
+				<div class="header">
+					<img class="apk-logo" src="/static/themes/ninenone/images/apkdopog.png">
+					<!--<a class="left-arrow" href="#">-->
+						<svg>
+							<polyline points="25,1 2,25 25,49" fill="none" stroke-width="2" stroke="rgb(255, 255, 255)"></polyline>
+						</svg>
+					</a>
+					<div class="menu-burger">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<a href="/auth/login/custom/?auth_entry=login" class="person"></a>
+				</div>
+				<div class="main-text">
+					<span class="line-1">Планируете заняться мониторингом автоперевозок?</span>
+					<span class="line-2">ВАМ ПОДОЙДЕТ КУРС</span>
+					<span class="line-3">Консультанты</span>
+				</div>
+				<div class="main-footer">
+					<a class="choose-course" href="#">ВЫБЕРИТЕ ПОДХОДЯЩИЙ КУРС<br/>ДЛЯ ОБУЧЕНИЯ ОНЛАЙН</a>
+					<a class="next" href="#">Дальше</a>
+				</div>
+			</div>
+			<div id="rest-section">
+				<div class="driver-courses">
+					<span class="driver-title">Обучение водителей</span>
+					<div class="driver-course-wrapper">
+						<a class="driver-course" href="/courses/rosavtotrans/C1/2015_1/about">
+							<div class="bg-img"></div>
+							<span class="course-title">Базовый курс</span>
+							<div class="course-logo">Б</div>
+							<span class="course-question">Вы нацелены перевозить грузы в упаковках?</span>
+							<span class="course-description">Данный курс является обязательным для всех водителей.</span>
+						</a>
+					</div>
+					<div class="driver-course-wrapper">
+						<a class="driver-course" href="/courses/RosAvtoTrans/C3/2015_1/about">
+							<div class="bg-img"></div>
+							<span class="course-title">Цистерны</span>
+							<div class="course-logo">Ц</div>
+							<span class="course-question">Планируете перевозить грузы, используя цистерну?</span>
+						</a>
+					</div>
+					<div class="driver-course-wrapper">
+						<a class="driver-course" href="/courses/RosAvtoTrans/C4/2015_1/about">
+							<div class="bg-img"></div>
+							<span class="course-title">1 класс</span>
+							<div class="course-logo">1</div>
+							<span class="course-question">Будете перевозить взрывчатые вещеста?</span>
+						</a>
+					</div>
+					<div class="driver-course-wrapper">
+						<a class="driver-course" href="/courses/rosavtotrans/C2ex/2015_1/about">
+							<div class="bg-img"></div>
+							<span class="course-title">7 класс</span>
+							<div class="course-logo">7</div>
+							<span class="course-question">Собираетесь перевозить радио-активные материалы?</span>
+						</a>
+					</div>
+				</div>
+				<div class="consult-courses">
+					<span class="consult-title">Обучение консультантов</span>
+					<div class="consult-course-wrapper">
+						<a class="consult-course" href="/courses/RosAvtoTrans/C5/2015_1/about">
+							<div class="bg-img"></div>
+							<span class="course-title">Курс по вопросам безопасности перевозки опасных грузов автомобильным транспортом для консультантов</span>
+							<div class="course-logo">К</div>
+							<span class="course-question-consult">Вы хотите консультировать водителей, перевозящих опасные грузы и курировать работу отделов?</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

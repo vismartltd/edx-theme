@@ -1,11 +1,35 @@
+<!DOCTYPE HTML5>
 <%! from django.utils.translation import ugettext as _ %>
-<%inherit file="/admin_layout.html" />
-<%namespace name='static' file='/static_content.html'/>
+<%! from django.core.urlresolvers import reverse %>
 
+<%! import third_party_auth %>
+<%! from third_party_auth import provider, pipeline %>
 
-<%block name="headextra">
-<%static:css group='style-course-vendor'/>
-<%static:css group='style-course'/>
+<%!
+    from django.core.urlresolvers import reverse
+%>
+
+<%!
+from util.date_utils import get_time_display
+from django.conf import settings
+from django.utils.http import urlquote_plus
+%>
+
+	<head>
+<%block name="js_extra">
+<%namespace name="progress_graph" file="/courseware/progress_graph.js"/>
+<script type="text/javascript" src="/static/themes/ninenone/js/jquery-2.1.4.min.js"></script>
+</%block>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
+		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/ion.calendar.css">
+		<script type="text/javascript" src="/static/themes/ninenone/js/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="/static/themes/ninenone/js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="/static/themes/ninenone/js/ion.calendar.min.js"></script>
+		<script type="text/javascript" src="/static/themes/ninenone/js/main.js"></script>
+<script src="/static/themes/ninenone/assets/js/scripts.js" type="text/javascript"></script>
+		<title>
+		</title>
 <style>
   .grade-detail-graph {
     height: 350px;
@@ -25,43 +49,80 @@
     margin-bottom: 30px;
   }
 </style>
-</%block>
-
-<%namespace name="progress_graph" file="/courseware/progress_graph.js"/>
-
-<%block name="pagetitle">Статистика и рекомендации по курсам</%block>
-<%block name="nav_skip"></%block>
-
-<%!
-    from django.core.urlresolvers import reverse
-%>
-
-<%!
-from util.date_utils import get_time_display
-from django.conf import settings
-from django.utils.http import urlquote_plus
-%>
-
-<%block name="js_extra">
-<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.js')}"></script>
-<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.stack.js')}"></script>
-<script type="text/javascript" src="${static.url('js/vendor/flot/jquery.flot.symbol.js')}"></script>
-</%block>
-
-<div class="container">
-  <div class="profile-wrapper">
-
-    <div class="course-info-progress" id="course-info-progress" aria-label="Статистика и рекомендации по курсам">
-      % if staff_access and studio_url is not None:
-        <div class="wrap-instructor-info">
-          <a class="instructor-info-action studio-view" href="${studio_url}">${_("View Grading in studio")}</a>
-        </div>
-      % endif
-
-      <header>
-        <h1>Статистика и рекомендации по курсам</h1>
-      </header>
-
+	</head>
+	<body>
+<!--<script type="text/javascript" src="/static/templates/courseware/progress_graph.js"></script>-->
+		<div id="wrapper">
+			<div class="main-section white">
+				<div class="header">
+					<img class="apk-logo" src="/static/themes/ninenone/images/logo-black.png">
+					<a class="left-arrow dark" href="#">
+						<svg>
+							<polyline points="25,1 2,25 25,49" fill="none" stroke-width="2" stroke="rgb(255, 255, 255)"></polyline>
+						</svg>
+					</a>
+					<div class="menu-burger dark">
+						<span></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div class="person">
+						<!-- <a href="#" class="exit">
+							<img src="exit.png" class="exit-img">
+						</a> -->
+						<img src="/static/themes/ninenone/images/user_img.png" class="person-img show-img">
+						<img src="/static/themes/ninenone/images/user_img.png" class="user-img">
+						<div class="user-panel">
+							<ul>
+								%if not user.is_authenticated():
+								<li>
+			          					<a href="/auth/login/custom/?auth_entry=login&next=%2Fcourses%2F">войти</a>
+								</li>
+								%endif
+								%if user.is_authenticated():
+								<li>
+									<a href="#">Курсы</a>
+								</li>
+								<li>
+									<a href="/statistics">Моя успеваемость</a>
+								</li>	
+							        <!-- <li>
+									<a href="#">Мой учебный план</a>
+								</li>-->
+								<li>
+									<a href="/profile">Личный кабинет</a>
+								</li>
+								<li>
+									<a href="${reverse('logout')}">Выйти</a>
+								</li>
+								%endif
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="grad-header">
+					<span class="grad-title">Успеваемость</span>
+				<!--	<a href="#">Обновить</a>-->
+					<a href="/statistics/plan/">Сформировать учебный план</a>
+					<a href="/statistics/pdf/">Сохранить в .pdf</a>
+				</div>
+				<div class="percent-courses">
+					<div class="percent-course">
+						<span class="title-percent-course">Все курсы</span>
+						<span class="percent">
+						${summ}   %
+						</span>
+						<div class="logo-percent-course"></div>
+					</div>
+					<div class="percent-course">
+						<span class="title-percent-course">Базовый курс</span>
+						<span class="percent">
+						${basesum}   %
+						</span>
+						<div class="logo-percent-course"></div>
+					</div>
+				</div>
       %if len(stats) == 0:
         <div class="course-stats">
           У вас отсутствуют статистические данные, потому что вы не записаны ни на один курс.
@@ -69,18 +130,23 @@ from django.utils.http import urlquote_plus
       %endif
 
       % for course_stats in sorted(stats, key=lambda s: s['course'].display_name_with_default):
-        <div class="course-stats">
+        <div class="statistics-block">
           <%
             course = course_stats['course']
             grade_summary = course_stats['grade_summary']
             quoted_course_id = urlquote_plus(unicode(course.id))
           %>
-          <h2><a href="${reverse('course_root', args=[course.id.to_deprecated_string()])}">
-            ${course.display_name_with_default | h}</a>
-          </h2>
+					<div class="sb-column-1">
+						<div class="sb-header">
+          <span class="sb-title"  href="${reverse('course_root', args=[course.id.to_deprecated_string()])}">
+            ${course.display_name_with_default | h}        </span> 
+	<a href="${reverse('course_root', args=[course.id.to_deprecated_string()])}">Продолжить изучение методических материалов</a>
           <script>
             ${progress_graph.body(grade_summary, course.grade_cutoffs, "grade-detail-graph-" + quoted_course_id, not course.no_grade, not course.no_grade)}
           </script>
+						</div>
+						<div class="statistics">
+
 
           %if settings.FEATURES.get("SHOW_PROGRESS_SUCCESS_BUTTON"):
             <%
@@ -101,27 +167,96 @@ from django.utils.http import urlquote_plus
           %endif
 
           %if not course.disable_progress_graph:
-            <div id="grade-detail-graph-${quoted_course_id}" class="grade-detail-graph"></div>
+           <!-- <div id="grade-detail-graph-${quoted_course_id}" class="grade-detail-graph"></div>i-->
           %endif
+
+          %for category in grade_summary['section_breakdown']:
+                   ${category['category']}:
+                   ${int(round(category['percent']*100))}% <br>
+          %endfor
+                   Итог: ${int(grade_summary['percent']*100)}%
+
+						</div>
+					</div>
+					<div class="sb-column-2">
+                                                <div class="date">
+
+          %if  course_stats['date'] == '':
+          <span class="date-title dt2${course_stats['num']}">Выберите дату до какого числа планируете завершить обучение по данному курсу ${course_stats['date']}<img class="calendar-logo"src="/static/themes/ninenone/images/date.png"></span>
+          %endif
+
+          %if  course_stats['date'] != '':
+          <span class="date-title Opacity dt2${course_stats['num']}">Вы планируете завершить обучение по курсу не позднее <span class="green">${course_stats['date']}</span><br><!--Обучение идет по плану--></span>
+
+          %endif
+
+                                                        <div class="myCalendar noOpacity" id="mc2${course_stats['num']}"></div>
+
+                                        <script>
+                                                $('.dt2${course_stats['num']}').click(function(event) {
+                                                        if ($('#mc2${course_stats['num']}').hasClass('noOpacity')) {
+                                                                $('.calendar-logo').addClass('noOpacity');
+                                                                $('#mc2${course_stats['num']}').removeClass('noOpacity');
+                                                        } else if (!$('#mc2${course_stats['num']}').hasClass('noOpacity')) {
+                                                                $('.calendar-logo').removeClass('noOpacity');
+                                                                $('#mc22${course_stats['num']}').addClass('noOpacity');
+                                                        }
+                                                });
+                                                if ($("#mc2${course_stats['num']}").length > 0) {
+                                                                $("#mc2${course_stats['num']}").ionCalendar({
+                                                            lang: "ru",                     // язык календаря
+                                                            sundayFirst: false,             // первый день недели
+                                                            years: "2015-2020",                    // диапазон лет
+                                                            format: "LL",           // формат возвращаемой даты
+                                                            format: "DDMMYYYY",
+                                                            onClick: function(date){        // клик по дням вернет сюда дату
+                                                                $('.dt2${course_stats['num']}').html('Вы планируете завершить обучение по курсу не позднее <span class="green">' + date + '</span><br/>Обучение идет по плану');
+                                                                $('.calendar-logo').removeClass('noOpacity');
+                                                                        $('#mc2${course_stats['num']}').addClass('noOpacity');
+                                                                        $('.dt2${course_stats['num']}').addClass('Opacity')
+                                                                        window.location.replace("http://learn.fbudopog.ru/statistics?d="+date+"&c=${course_stats['cid']}")
+                                                            }
+                                                        });
+                                                }
+                                        </script>
+
+
+
+
+                                                </div>
+
+
+
+
+
 
           %if len(grade_summary['section_breakdown']) > 1:
           <div class="recommendations">
-            <h3> Рекомендуемые к изучению темы: </h3>
-            <ol>
+  	    <span class="recomend">Рекомендуем к повторению следующие темы:
+            <ul>
               <%
               nonzero_cutoffs = [cutoff for cutoff in course.grade_cutoffs.values() if cutoff > 0]
               success_cutoff = min(nonzero_cutoffs) if nonzero_cutoffs else None
               filtered_grade_sections = [section for section in grade_summary['section_breakdown']
                                          if section['percent'] <= success_cutoff]
               %>
-              %for section in sorted(filtered_grade_sections, key=lambda s: s['percent']):
+              %for section in sorted(filtered_grade_sections, key=lambda s: s['percent'])[0:3]:
               <li>${section['category']}</li>
               %endfor
-            </ol>
+            </ul>
+	    </span>
           </div>
           %endif
+					</div>
         </div>
       %endfor
-    </div>
-  </div>
-</div>
+
+			</div>
+		</div>
+        </div>
+<script type="text/javascript" src="/static/js/vendor/flot/jquery.flot.js"></script>
+
+<script type="text/javascript" src="/static/js/vendor/flot/jquery.flot.stack.js"></script>
+<script type="text/javascript" src="/static/js/vendor/flot/jquery.flot.symbol.js"></script>
+	</body>
+</html>
