@@ -72,13 +72,13 @@ $(window).load(function() {
 		event.preventDefault();
 		event.stopPropagation();
 		if (!$(this).hasClass('basic-course')) {
-			$('.modal').css({
+			$('#try-imitation-test-modal').css({
 				'z-index': 999
 			});
 			$(this).removeClass('scale')
-			$('.modal').removeClass('hidden');
-			$('.modal-current-course').text($(this).children('.course-title').text());
-			$('.modal-current-course').attr('href',$(this).attr('href'));
+			$('#try-imitation-test-modal').removeClass('hidden');
+			$('#try-imitation-test-modal').text($(this).children('.course-title').text());
+			$('#try-imitation-test-modal').attr('href',$(this).attr('href'));
 		}
 	});
 

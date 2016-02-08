@@ -1,4 +1,4 @@
-<!DOCTYPE HTML5>
+<!DOCTYPE HTML>
 
 <%! from django.utils.translation import ugettext as _ %>
 <%! from django.core.urlresolvers import reverse %>
@@ -9,20 +9,71 @@
 from courseware.courses import course_image_url, get_course_about_section
 from microsite_configuration import microsite 
 %>
+
+<%namespace name='static' file='../static_content.html'/>
+
 <%page args="course" /> 
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
 		<script type="text/javascript" src="/static/themes/ninenone/js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="/static/themes/ninenone/js/main.js"></script>
-		<title>
-		</title>
+		<title>${get_course_about_section(course, "title")}</title>
 	</head>
 	<body>
+
+		% if disable_courseware_js:
+			<%static:js group='base_vendor'/>
+		% else:
+			<%static:js group='main_vendor'/>
+		% endif
+
+		% if not disable_courseware_js:
+			<%static:js group='application'/>
+			<%static:js group='module-js'/>
+		% endif
+
+	    <script>
+			$(function () {
+				$('#class_enroll_form').on('ajax:complete', function(event, xhr) {
+					if(xhr.status == 200) {
+						if (xhr.responseText == "") {
+							location.href = "${reverse('courseware', kwargs=dict(course_id=course.id.to_deprecated_string()))}";
+						} else {
+							location.href = xhr.responseText;
+						}
+					} else if (xhr.status == 403) {
+						location.href = "";
+					} else {
+						console.log("Enrollment error.");
+					}
+				});
+
+				$('.main-course').click(function(event) {
+					if ($(this).attr('data-enrolled') === 'false') {
+						event.preventDefault();
+						event.stopPropagation();
+						var $modal = $('#enroll-modal');
+						$modal.css({'z-index': 999});
+						$(this).removeClass('scale');
+						$modal.removeClass('hidden');
+						//$modal.attr('href', $(this).attr('href'));
+					} else {
+						location.href = "${reverse('courseware', kwargs=dict(course_id=course.id.to_deprecated_string()))}";
+					}
+				});
+
+				$('#yes-enroll').click(function (event) {
+					event.preventDefault();
+					event.stopPropagation();
+					$('#class_enroll_form').submit();
+				});
+			});
+		</script>
 		<div id="wrapper">
 			<div class="main-section exam" style="background-image: url('${course_image_url(course)}');" >
 				<div class="skin"></div>
-				<div class="modal hidden">
+				<div id="try-imitation-test-modal" class="modal hidden">
 					<div class="modal-center">
 						<span class="modal-center-ask">Вы еще не завершили обучение. Точно хотите попробовать пройти тест?</span>
 						<a class="modal-test" href="test">Да</a>
@@ -32,6 +83,28 @@ from microsite_configuration import microsite
 						<span></span>
 						<span></span>
 					</div>
+				</div>
+				<div id="enroll-modal" class="modal hidden">
+					<div class="modal-center">
+						<span class="modal-center-ask">Записаться на данный курс?</span>
+						<a id="yes-enroll" class="modal-test"
+						   href="${reverse('register_user')}?course_id=${course.id | u}&enrollment_action=enroll">
+							 Да, записаться
+						</a>
+						<a class="modal-methods" href="#">Нет, вернуться назад</a>
+					</div>
+					<div class="burger-close">
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div style="display: none;">
+					<form id="class_enroll_form" method="post" data-remote="true" action="${reverse('change_enrollment')}">
+						<fieldset class="enroll_fieldset">
+							<input name="course_id" type="hidden" value="${course.id | h}">
+							<input name="enrollment_action" type="hidden" value="enroll">
+						</fieldset>
+					</form>
 				</div>
 				<div class="header">
 					<img class="apk-logo" src="/static/themes/ninenone/images/apkdopog.png">
@@ -80,13 +153,13 @@ from microsite_configuration import microsite
 						</div>
 					</div>
 				</div>
-				<a class="main-course" href="">
+				<a class="main-course" href="${course_target}" data-enrolled="${'true' if (user.is_authenticated() and registered) else 'false'}">
 					<span class="main-course-title">${get_course_about_section(course, "title")}</span>
-					<span class="main-course-logo">Б</span>
+					<span class="main-course-logo">${get_course_about_section(course, "title")[0].upper()}</span>
 					<span class="rest-course-desc">
-${get_course_about_section(course, "short_description")}
-<!--${course_image_url(course)}-->
-                                        </span>
+					    ${get_course_about_section(course, "overview")}
+                        <!--${course_image_url(course)}-->
+                    </span>
 				</a>
 				<a class="rest-course" href="info">
 					<span class="rest-course-title">Методические<br/>материалы</span>

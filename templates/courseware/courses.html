@@ -1,4 +1,4 @@
-<!DOCTYPE HTML5>
+<!DOCTYPE HTML>
 
 <%! from django.utils.translation import ugettext as _ %>
 <%! from django.core.urlresolvers import reverse %>
@@ -6,6 +6,12 @@
 <%! import third_party_auth %>
 <%! from third_party_auth import provider, pipeline %>
 
+<%!
+from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+from courseware.courses import course_image_url, get_course_about_section
+%>
+<html>
 	<head>
 		<meta charset="UTF-8">
 		<link rel="stylesheet" type="text/css" href="/static/themes/ninenone/css/main.css">
@@ -18,7 +24,6 @@
 		<div id="wrapper">
 			<div class="main-section">
 
-
 				<div class="modal hidden">
 					<div class="modal-center">
 						<span class="modal-center-ask">Вы еще не закончили базовый курс. Предлагаем вам завершить обучение прежде, чем приступать к следующим курсам.</span>
@@ -30,11 +35,6 @@
 						<span></span>
 					</div>
 				</div>
-
-
-
-
-
 
 				<div class="slider">
 					<div class="slide slide-first">
@@ -125,39 +125,22 @@
 			<div id="rest-section">
 				<div class="driver-courses">
 					<span class="driver-title">Обучение водителей</span>
+					% for course in courses:
 					<div class="driver-course-wrapper">
-						<a class="driver-course basic-course" href="/courses/rosavtotrans/C1/2015_1/about">
+						<a class="driver-course basic-course" href="${reverse('about_course', args=[course.id.to_deprecated_string()])}">
 							<div class="bg-img"></div>
-							<span class="course-title">Базовый курс</span>
-							<div class="course-logo">Б</div>
-							<span class="course-question">Вы нацелены перевозить грузы в упаковках?</span>
+							<span class="course-title">${course.display_name_with_default}</span>
+							<div class="course-logo">${course.display_name_with_default[0].upper()}</div>
+							<span class="course-question">${get_course_about_section(course, 'short_description')}</span>
 							<span class="course-description">Данный курс является обязательным для всех водителей.</span>
+							<div class="course-tags">
+								% for tag in course.tag_list:
+								<span class="label fs-11">${tag}</span>
+								% endfor
+							</div>
 						</a>
 					</div>
-					<div class="driver-course-wrapper">
-						<a class="driver-course q-basic" href="/courses/RosAvtoTrans/C3/2015_1/about">
-							<div class="bg-img"></div>
-							<span class="course-title">Цистерны</span>
-							<div class="course-logo">Ц</div>
-							<span class="course-question">Планируете перевозить грузы, используя цистерну?</span>
-						</a>
-					</div>
-					<div class="driver-course-wrapper">
-						<a class="driver-course q-basic" href="/courses/RosAvtoTrans/C4/2015_1/about">
-							<div class="bg-img"></div>
-							<span class="course-title">1 класс</span>
-							<div class="course-logo">1</div>
-							<span class="course-question">Будете перевозить взрывчатые вещеста?</span>
-						</a>
-					</div>
-					<div class="driver-course-wrapper">
-						<a class="driver-course q-basic" href="/courses/rosavtotrans/C2ex/2015_1/about">
-							<div class="bg-img"></div>
-							<span class="course-title">7 класс</span>
-							<div class="course-logo">7</div>
-							<span class="course-question">Собираетесь перевозить радио-активные материалы?</span>
-						</a>
-					</div>
+					%endfor
 				</div>
 				<div class="consult-courses">
 					<span class="consult-title">Обучение консультантов</span>
