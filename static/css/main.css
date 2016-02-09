@@ -6,7 +6,7 @@ html, body {
 
 @font-face {
 	font-family: Circe;
-	src: font-url("/static/themes/ninenone/css/fonts/Circe.otf");
+	src: font-url("../fonts/Circe.otf");
 }
 
 /*@font-face {
@@ -16,12 +16,12 @@ html, body {
 
 @font-face {
 	font-family: Circe-Bold;
-	src: font-url("/static/themes/ninenone/css/fonts/CirceBold.otf");
+	src: font-url("../fonts/CirceBold.otf");
 }
 
 @font-face {
 	font-family: Circe-Light;
-	src: font-url("/static/themes/ninenone/css/fonts/CirceLight.otf");
+	src: font-url("../fonts/CirceLight.otf");
 }
 
 /*@font-face {
@@ -80,7 +80,7 @@ html, body {
 	height: 100%;
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/drivers.jpg');
+	background-image: url('../images/drivers.jpg');
 }
 
 .slide-second {
@@ -91,7 +91,7 @@ html, body {
 	height: 100%;
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/driver.jpg');
+	background-image: url('../images/driver.jpg');
 }
 
 .slide-third {
@@ -102,7 +102,7 @@ html, body {
 	height: 100%;
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/tank.jpg');
+	background-image: url('../images/tank.jpg');
 }
 
 .skin {
@@ -636,7 +636,7 @@ html, body {
 	margin: -20px 0 0 -20px;
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/driver-bg.jpg');
+	background-image: url('../images/driver-bg.jpg');
 	opacity: 0;
 	-webkit-transition: all 0.6s ease;
     -o-transition: all 0.6s ease;
@@ -782,7 +782,7 @@ html, body {
 	margin: -20px 0 0 -20px;
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/driver-bg.jpg');
+	background-image: url('../images/driver-bg.jpg');
 	opacity: 0;
 	-webkit-transition: all 0.6s ease;
     -o-transition: all 0.6s ease;
@@ -817,7 +817,7 @@ html, body {
 .exam {
 	background: #f2f2f2 center center no-repeat;
     background-size: cover;
-	background-image: url('/static/themes/ninenone/images/drivers.jpg');
+	background-image: url('../images/drivers.jpg');
 }
 
 .modal-test, .modal-methods {
