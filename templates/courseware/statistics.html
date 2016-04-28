@@ -27,7 +27,7 @@ from django.utils.http import urlquote_plus
 		<script type="text/javascript" src="/static/themes/ninenone/js/jquery-2.1.4.min.js"></script>
 		<script type="text/javascript" src="/static/themes/ninenone/js/ion.calendar.min.js"></script>
 		<script type="text/javascript" src="/static/themes/ninenone/js/main.js"></script>
-<script src="/static/themes/ninenone/assets/js/scripts.js" type="text/javascript"></script>
+        <!--<script src="/static/themes/ninenone/assets/js/scripts.js" type="text/javascript"></script>-->
 		<title>
 		</title>
 <style>
@@ -82,7 +82,7 @@ from django.utils.http import urlquote_plus
 								%endif
 								%if user.is_authenticated():
 								<li>
-									<a href="#">Курсы</a>
+									<a href="/courses">Курсы</a>
 								</li>
 								<li>
 									<a href="/statistics">Моя успеваемость</a>
@@ -167,7 +167,7 @@ from django.utils.http import urlquote_plus
           %endif
 
           %if not course.disable_progress_graph:
-           <!-- <div id="grade-detail-graph-${quoted_course_id}" class="grade-detail-graph"></div>i-->
+             <div id="grade-detail-graph-${quoted_course_id}" class="grade-detail-graph"></div>
           %endif
 
           %for category in grade_summary['section_breakdown']:

@@ -102,7 +102,7 @@ from courseware.courses import course_image_url, get_course_about_section
 								%endif
 								%if user.is_authenticated():
 								<li>
-									<a href="#">Курсы</a>
+									<a href="/courses">Курсы</a>
 								</li>
 								<li>
 									<a href="/statistics">Моя успеваемость</a>
@@ -124,7 +124,7 @@ from courseware.courses import course_image_url, get_course_about_section
 			</div>
 			<div id="rest-section">
 				<div class="driver-courses">
-					<span class="driver-title">Обучение водителей</span>
+					<span class="driver-title">Доступные для прохождения курсы:</span>
 					% for course in courses:
 					<div class="driver-course-wrapper">
 						<a class="driver-course basic-course" href="${reverse('about_course', args=[course.id.to_deprecated_string()])}">
@@ -141,17 +141,6 @@ from courseware.courses import course_image_url, get_course_about_section
 						</a>
 					</div>
 					%endfor
-				</div>
-				<div class="consult-courses">
-					<span class="consult-title">Обучение консультантов</span>
-					<div class="consult-course-wrapper">
-						<a class="consult-course" href="/courses/RosAvtoTrans/C5/2015_1/about">
-							<div class="bg-img"></div>
-							<span class="course-title">Курс по вопросам безопасности перевозки опасных грузов автомобильным транспортом для консультантов</span>
-							<div class="course-logo">К</div>
-							<span class="course-question-consult">Вы хотите консультировать водителей, перевозящих опасные грузы и курировать работу отделов?</span>
-						</a>
-					</div>
 				</div>
 			</div>
 		</div>
